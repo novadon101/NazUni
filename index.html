@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>Nazareth University Campus Safety | Patrol Log</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -19,7 +19,7 @@
       --light-gray: #f5f5f5;
       --medium-gray: #e0e0e0;
       --dark-gray: #555;
-      --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --card-shadow: 0 4px 12px rgba(0,0,0,0.0.08);
       --smooth-shadow: 0 2px 10px rgba(0,0,0,0.05);
       --highlight: #fff9c4;
       --pastel-purple: #E6E0F8;
@@ -41,6 +41,99 @@
       color: var(--text);
       line-height: 1.5;
       padding-bottom: 100px;
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    /* Login Screen Styles */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: var(--purple);
+      padding: 20px;
+    }
+
+    .login-card {
+      background-color: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--card-shadow);
+      padding: 30px;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 25px;
+      color: var(--purple);
+    }
+
+    .login-header h1 {
+      font-size: 1.8rem;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
+    }
+
+    .login-header p {
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--medium-gray);
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.2s;
+    }
+
+    .form-group input:focus {
+      border-color: var(--purple);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 42, 111, 0.2);
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background-color: var(--purple);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .login-btn:hover {
+      background-color: #2a1f50;
+    }
+
+    .login-error {
+      color: var(--error);
+      font-size: 0.85rem;
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    /* Main App Styles (hidden until login) */
+    .main-app {
+      display: none;
     }
 
     /* Header Styles */
@@ -48,9 +141,10 @@
       background-color: var(--purple);
       color: var(--white);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      justify-content: space-between;
-      padding: 12px 16px;
+      justify-content: center;
+      padding: 16px;
       border-bottom: 4px solid var(--gold);
       position: sticky;
       top: 0;
@@ -58,28 +152,36 @@
       box-shadow: var(--card-shadow);
     }
 
-    .logo-container {
+    .university-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    .department-name {
+      font-size: 1.1rem;
+      margin-bottom: 5px;
+    }
+
+    .phone-number {
+      font-size: 1rem;
+      color: var(--white);
+      text-decoration: none;
       display: flex;
       align-items: center;
     }
 
-    .logo {
-      height: 40px;
-      margin-right: 10px;
-      border-radius: 6px;
+    .phone-number i {
+      margin-right: 5px;
     }
 
-    .header-text {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .mascot {
-      height: 44px;
-      border-radius: 50%;
-      border: 2px solid var(--gold);
-      background: var(--light-purple);
-      padding: 3px;
+    .officer-info {
+      position: absolute;
+      right: 16px;
+      top: 16px;
+      font-size: 0.8rem;
+      text-align: right;
     }
 
     /* Main Content Styles */
@@ -97,7 +199,7 @@
       margin: 20px 0 15px;
     }
 
-    /* Resources Section - NOW AT TOP */
+    /* Resources Section - AT TOP */
     .resources-section {
       margin: 25px 0;
     }
@@ -160,6 +262,9 @@
 
     .code-dictionary-list {
       list-style: none;
+      max-height: 300px;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
     }
 
     .code-item {
@@ -221,7 +326,18 @@
       color: var(--dark-gray);
     }
 
-    /* Patrol Type Section - NOW WITH EXPAND/COLLAPSE */
+    .phone-link {
+      color: var(--purple);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+    }
+
+    .phone-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Patrol Type Section - WITH EXPAND/COLLAPSE */
     .patrol-type-card {
       background: var(--white);
       border-radius: 12px;
@@ -317,45 +433,6 @@
       margin-bottom: 5px;
     }
 
-    /* Event 99 Button */
-    .event99-btn {
-      width: 100%;
-      padding: 16px;
-      font-size: 1.1rem;
-      border: 2px solid var(--warning);
-      border-radius: 10px;
-      font-weight: 700;
-      color: var(--text);
-      background-color: var(--white);
-      cursor: pointer;
-      transition: all 0.2s;
-      text-align: center;
-      margin: 10px 0 20px;
-      box-shadow: var(--smooth-shadow);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .event99-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-      background-color: var(--warning);
-      color: var(--white);
-    }
-
-    .event99-btn.active {
-      background-color: var(--warning);
-      color: var(--white);
-      border-color: var(--warning);
-    }
-
-    .event99-icon {
-      font-size: 1.4rem;
-      margin-bottom: 8px;
-    }
-
     /* Form Elements */
     .form-group {
       margin-bottom: 20px;
@@ -424,7 +501,7 @@
       color: white;
     }
 
-    /* Entry List - No Swipe Functionality */
+    /* Entry List */
     .entry-list {
       margin: 25px 0;
       border: 1px solid var(--medium-gray);
@@ -1102,6 +1179,104 @@
       transform: translateY(-1px);
     }
 
+    /* Special Activity Input Styles */
+    .special-activity-input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--medium-gray);
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    .char-counter {
+      font-size: 0.8rem;
+      color: var(--dark-gray);
+      text-align: right;
+      margin-top: 5px;
+    }
+
+    .char-counter.warning {
+      color: var(--warning);
+    }
+
+    .char-counter.error {
+      color: var(--error);
+    }
+
+    /* Tab Navigation for Code Dictionary */
+    .tab-navigation {
+      display: flex;
+      border-bottom: 1px solid var(--medium-gray);
+      margin-bottom: 15px;
+    }
+
+    .tab-button {
+      background: none;
+      border: none;
+      padding: 10px 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--dark-gray);
+      cursor: pointer;
+      border-bottom: 3px solid transparent;
+      transition: all 0.2s;
+    }
+
+    .tab-button.active {
+      color: var(--purple);
+      border-bottom-color: var(--purple);
+    }
+
+    .tab-button:hover {
+      color: var(--purple);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Search within Code Dictionary */
+    .code-search {
+      margin-bottom: 15px;
+      position: relative;
+    }
+
+    .code-search input {
+      width: 100%;
+      padding: 10px 40px 10px 15px;
+      border: 1px solid var(--medium-gray);
+      border-radius: 8px;
+      font-size: 0.9rem;
+    }
+
+    .code-search i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--dark-gray);
+    }
+
+    /* Scroll indicator for code lists */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(to right, var(--purple) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .scroll-indicator.visible {
+      opacity: 1;
+    }
+
     /* Responsive Design */
     @media (max-width: 480px) {
       .patrol-buttons {
@@ -1125,8 +1300,18 @@
         padding: 10px 12px;
       }
       
-      .header-text {
-        font-size: 0.8rem;
+      .university-name {
+        font-size: 1.2rem;
+      }
+      
+      .department-name {
+        font-size: 0.9rem;
+      }
+      
+      .officer-info {
+        position: static;
+        text-align: center;
+        margin-top: 10px;
       }
       
       .activity-codes-modal-grid {
@@ -1165,273 +1350,430 @@
 </head>
 
 <body>
-  <header>
-    <div class="logo-container">
-      <img src="nazareth_logo.png" alt="Nazareth University Logo" class="logo">
-      <div class="header-text">Campus Safety Patrol Log</div>
-    </div>
-    <img src="swoop_mascot.png" alt="Swoop Mascot" class="mascot">
-  </header>
-
-  <main>
-    <!-- Resources Section - MOVED TO TOP -->
-    <div class="resources-section">
-      <h2 class="section-title">Resources</h2>
-      <div class="resource-cards">
-        <!-- Code Dictionary -->
-        <div class="resource-card active" id="codeDictionaryCard">
-          <div class="resource-header">
-            <div>
-              <i class="fas fa-book"></i>
-              Code Dictionary
-            </div>
-            <i class="fas fa-chevron-down resource-toggle"></i>
-          </div>
-          <div class="resource-content">
-            <!-- Activity Codes Subsection -->
-            <h4 style="color: var(--purple); margin: 15px 0 10px;">Activity Codes</h4>
-            <ul class="code-dictionary-list">
-              <li class="code-item"><span class="code-value">P</span> - Patrolled</li>
-              <li class="code-item"><span class="code-value">61</span> - Personal Assist</li>
-              <li class="code-item"><span class="code-value">61B</span> - TBD</li>
-              <li class="code-item"><span class="code-value">62</span> - Escort</li>
-              <li class="code-item"><span class="code-value">62M</span> - Medical Escort</li>
-              <li class="code-item"><span class="code-value">63</span> - Vehicle Assist</li>
-              <li class="code-item"><span class="code-value">65</span> - Lock Up / Lock Out</li>
-              <li class="code-item"><span class="code-value">65B</span> - Building Open / Close</li>
-              <li class="code-item"><span class="code-value">66</span> - Noise Complaint</li>
-              <li class="code-item"><span class="code-value">67</span> - Door Alarm</li>
-              <li class="code-item"><span class="code-value">68</span> - Delivery / Pickup</li>
-              <li class="code-item"><span class="code-value">69</span> - Investigation / Follow-Up</li>
-              <li class="code-item"><span class="code-value">93</span> - Cooler / Freezer Check</li>
-              <li class="code-item"><span class="code-value">95</span> - Stove / Oven / Grill / Furnace Check</li>
-              <li class="code-item"><span class="code-value">99</span> - Event Detail</li>
-              <li class="code-item"><span class="code-value">100</span> - Special Attention</li>
-            </ul>
-            
-            <!-- Status Codes Subsection -->
-            <h4 style="color: var(--purple); margin: 20px 0 10px;">Status Codes</h4>
-            <ul class="code-dictionary-list">
-              <li class="code-item"><span class="code-value">10-04</span> - Copy</li>
-              <li class="code-item"><span class="code-value">10-05</span> - On Scene</li>
-              <li class="code-item"><span class="code-value">10-08</span> - Scene Clearance</li>
-              <li class="code-item"><span class="code-value">10-09</span> - Repeat Radio Transmission Request</li>
-            </ul>
-          </div>
-        </div>
-
-        <!-- Maps -->
-        <div class="resource-card" id="mapsCard">
-          <div class="resource-header">
-            <div>
-              <i class="fas fa-map"></i>
-              Maps
-            </div>
-            <i class="fas fa-chevron-down resource-toggle"></i>
-          </div>
-          <div class="resource-content">
-            <div class="resource-links">
-              <a href="https://www2.naz.edu/files/5314/9062/3301/MAD_Map.pdf" target="_blank" class="resource-link">
-                <i class="fas fa-building"></i>
-                <div class="resource-link-text">
-                  <div class="resource-link-title">Campus Buildings Map</div>
-                  <div class="resource-link-desc">PDF map of all campus buildings</div>
-                </div>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-              <a href="https://maps.naz.edu/#lot-j" target="_blank" class="resource-link">
-                <i class="fas fa-map-marked-alt"></i>
-                <div class="resource-link-text">
-                  <div class="resource-link-title">Interactive Campus Map</div>
-                  <div class="resource-link-desc">Digital interactive map with building and parking lot details</div>
-                </div>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-              <a href="https://www2.naz.edu/files/5214/4294/7624/ParkingMap.pdf" target="_blank" class="resource-link">
-                <i class="fas fa-parking"></i>
-                <div class="resource-link-text">
-                  <div class="resource-link-title">Parking Lot Campus Map</div>
-                  <div class="resource-link-desc">PDF map of all campus parking lots</div>
-                </div>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Forms -->
-        <div class="resource-card" id="formsCard">
-          <div class="resource-header">
-            <div>
-              <i class="fas fa-file-alt"></i>
-              Forms
-            </div>
-            <i class="fas fa-chevron-down resource-toggle"></i>
-          </div>
-          <div class="resource-content">
-            <div class="resource-links">
-              <a href="https://docs.google.com/forms/d/e/1FAIpQLSenjNviu1hM7M1M2qjsCxHzaNPxjNSGPJIJYtM6DufyzKRRQQ/viewform" target="_blank" class="resource-link">
-                <i class="fas fa-clipboard-list"></i>
-                <div class="resource-link-text">
-                  <div class="resource-link-title">99 Event Detail Form</div>
-                  <div class="resource-link-desc">Submit Event Detail documentation</div>
-                </div>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- Schedule -->
-        <div class="resource-card" id="scheduleCard">
-          <div class="resource-header">
-            <div>
-              <i class="fas fa-calendar-alt"></i>
-              Schedule
-            </div>
-            <i class="fas fa-chevron-down resource-toggle"></i>
-          </div>
-          <div class="resource-content">
-            <div class="resource-links">
-              <a href="https://docs.google.com/spreadsheets/d/1lPrSeGO3QK7JipgSp1QCDwU5GeNvm9SkWfRW_d4BPx4/edit#gid=1246389670" target="_blank" class="resource-link">
-                <i class="fas fa-spreadsheet"></i>
-                <div class="resource-link-text">
-                  <div class="resource-link-title">Patrol Schedule</div>
-                  <div class="resource-link-desc">View current shift schedules</div>
-                </div>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-
-        <!-- General Orders -->
-        <div class="resource-card" id="generalOrdersCard">
-          <div class="resource-header">
-            <div>
-              <i class="fas fa-file-contract"></i>
-              General Orders
-            </div>
-            <i class="fas fa-chevron-down resource-toggle"></i>
-          </div>
-          <div class="resource-content">
-            <div class="resource-links">
-              <a href="https://drive.google.com/drive/folders/1d7qmVsfoUcV-wHxeN4-cpBcHw9IJCfHH" target="_blank" class="resource-link">
-                <i class="fas fa-folder-open"></i>
-                <div class="resource-link-text">
-                  <div class="resource-link-title">General Orders Directory</div>
-                  <div class="resource-link-desc">Access department policies and procedures</div>
-                </div>
-                <i class="fas fa-external-link-alt"></i>
-              </a>
-            </div>
-          </div>
-        </div>
+  <!-- Login Screen -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-card">
+      <div class="login-header">
+        <h1>NAZARETH UNIVERSITY</h1>
+        <p>Campus Safety Patrol Log</p>
       </div>
-    </div>
-
-    <!-- Patrol Type Section - NOW WITH EXPAND/COLLAPSE -->
-    <div class="patrol-type-card active" id="patrolTypeCard">
-      <div class="patrol-type-header">
-        <div>
-          <i class="fas fa-walking"></i>
-          Select Patrol Type
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" required>
         </div>
-        <i class="fas fa-chevron-down patrol-type-toggle"></i>
-      </div>
-      <div class="patrol-type-content">
-        <div class="patrol-buttons">
-          <button class="patrol-btn" id="detailBtn" onclick="setPatrolType('detail')">
-            <span class="patrol-icon">🅿️</span>
-            <span>DETAIL</span>
-          </button>
-          <button class="patrol-btn" id="mobileBtn" onclick="setPatrolType('mobile')">
-            <span class="patrol-icon">🚗</span>
-            <span>MOBILE</span>
-          </button>
-          <button class="patrol-btn active" id="walkBtn" onclick="setPatrolType('walk')">
-            <span class="patrol-icon">🚶</span>
-            <span>WALK</span>
-          </button>
-          <!-- Code 99 added as a patrol function -->
-          <button class="patrol-btn" id="event99PatrolBtn" onclick="handleEvent99Click()">
-            <span class="patrol-icon">📋</span>
-            <span>99 - EVENT DETAIL</span>
-          </button>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" required>
         </div>
-      </div>
-    </div>
-
-    <!-- Event 99 Button removed from here since it's now in the patrol type section -->
-
-    <div class="form-group">
-      <label for="location">Location</label>
-      <div class="searchable-select" id="locationSelect">
-        <input type="text" id="location" placeholder="Type to search locations..." autocomplete="off">
-        <div class="dropdown-options" id="locationOptions"></div>
-      </div>
-    </div>
-
-    <div class="entry-list">
-      <div class="entry-list-header">
-        <span>Patrol Log</span>
-        <button class="clear-btn" id="clearBtn">Clear All</button>
-      </div>
-      <div class="entry-list-subheader">
-        <span class="time-subheader">Time</span>
-        <span class="activity-subheader">Activity</span>
-      </div>
-      <div class="click-instructions">Click an entry to edit</div>
-      <div class="entry-list-content">
-        <ul id="entryList">
-          <!-- Entries will be added here dynamically -->
-        </ul>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="building-summary">
-        <h3>
-          <i class="fas fa-building"></i> Building Activity Summary
-          <button class="help-btn" id="codeHelpBtn">
-            <i class="fas fa-question-circle"></i>
-          </button>
-        </h3>
-        <div class="table-filters">
-          <input type="text" id="buildingFilter" placeholder="Filter buildings...">
-          <input type="text" id="codeFilter" placeholder="Filter codes...">
+        <div class="form-group">
+          <label for="unitNumber">Unit Number</label>
+          <input type="text" id="unitNumber" required>
         </div>
-        <div class="building-table-container">
-          <table class="building-table" id="buildingTable">
-            <!-- Building table will be generated here dynamically -->
-          </table>
-        </div>
-      </div>
-    </div>
-  </main>
-
-  <div class="action-bar maximized" id="actionBar">
-    <div class="action-bar-toggle">
-      <button class="toggle-btn" id="toggleActionBar">
-        <i class="fas fa-chevron-down"></i>
-      </button>
-    </div>
-    <div class="action-buttons">
-      <button class="action-btn save-btn" id="logBtn"><i class="fas fa-save"></i> Log Activity</button>
-      <button class="action-btn end-btn" id="generateBtn"><i class="fas fa-file-export"></i> End Shift</button>
+        <button type="submit" class="login-btn">Sign In</button>
+        <div id="loginError" class="login-error"></div>
+      </form>
     </div>
   </div>
 
-  <footer>
-    © 2025 Nazareth University Campus Safety — Internal Use Only
-    <div style="margin-top: 10px; font-size: 0.7rem; color: #888;">
-      Data is automatically saved locally • Use "Clear All" to reset during testing
+  <!-- Main App (hidden until login) -->
+  <div class="main-app" id="mainApp">
+    <header>
+      <div class="university-name">NAZARETH UNIVERSITY</div>
+      <div class="department-name">Campus Safety</div>
+      <a href="tel:5853892850" class="phone-number">
+        <i class="fas fa-phone"></i> (585) 389-2850
+      </a>
+      <div class="officer-info" id="officerInfo">
+        Officer: <span id="officerName"></span> | Unit: <span id="officerUnit"></span>
+      </div>
+    </header>
+
+    <main>
+      <!-- Resources Section - AT TOP -->
+      <div class="resources-section">
+        <h2 class="section-title">Resources</h2>
+        <div class="resource-cards">
+          <!-- After Hours Phone Lines -->
+          <div class="resource-card active" id="afterHoursCard">
+            <div class="resource-header">
+              <div>
+                <i class="fas fa-phone"></i>
+                After Hours Phone Lines
+              </div>
+              <i class="fas fa-chevron-down resource-toggle"></i>
+            </div>
+            <div class="resource-content">
+              <div class="resource-links">
+                <a href="tel:5857295073" class="resource-link">
+                  <i class="fas fa-user-md"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Health & Counseling</div>
+                    <div class="resource-link-desc">(585) 729-5073</div>
+                  </div>
+                  <i class="fas fa-phone"></i>
+                </a>
+                <a href="tel:5857334258" class="resource-link">
+                  <i class="fas fa-tools"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Facilities</div>
+                    <div class="resource-link-desc">(585) 733-4258</div>
+                  </div>
+                  <i class="fas fa-phone"></i>
+                </a>
+                <a href="tel:5854901502" class="resource-link">
+                  <i class="fas fa-snowflake"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Grounds Snow</div>
+                    <div class="resource-link-desc">(585) 490-1502</div>
+                  </div>
+                  <i class="fas fa-phone"></i>
+                </a>
+                <a href="tel:5852783661" class="resource-link">
+                  <i class="fas fa-user-shield"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">AD on Duty</div>
+                    <div class="resource-link-desc">(585) 278-3661</div>
+                  </div>
+                  <i class="fas fa-phone"></i>
+                </a>
+                <a href="tel:5853892500" class="resource-link">
+                  <i class="fas fa-user-nurse"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Nurse Line</div>
+                    <div class="resource-link-desc">(585) 389-2500</div>
+                  </div>
+                  <i class="fas fa-phone"></i>
+                </a>
+                <a href="tel:5853642420" class="resource-link">
+                  <i class="fas fa-laptop"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">IT</div>
+                    <div class="resource-link-desc">(585) 364-2420</div>
+                  </div>
+                  <i class="fas fa-phone"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Code Dictionary -->
+          <div class="resource-card" id="codeDictionaryCard">
+            <div class="resource-header">
+              <div>
+                <i class="fas fa-book"></i>
+                Code Dictionary
+              </div>
+              <i class="fas fa-chevron-down resource-toggle"></i>
+            </div>
+            <div class="resource-content">
+              <!-- Tab Navigation -->
+              <div class="tab-navigation">
+                <button class="tab-button active" data-tab="activity">Activity Codes</button>
+                <button class="tab-button" data-tab="status">Status Codes (10 Codes)</button>
+              </div>
+              
+              <!-- Activity Codes Tab -->
+              <div class="tab-content active" id="activity-tab">
+                <div class="code-search">
+                  <input type="text" id="activityCodeSearch" placeholder="Search activity codes...">
+                  <i class="fas fa-search"></i>
+                </div>
+                <div class="code-dictionary-list" id="activityCodeList">
+                  <div class="scroll-indicator" id="activityScrollIndicator"></div>
+                  <li class="code-item"><span class="code-value">P</span> - Patrolled</li>
+                  <li class="code-item"><span class="code-value">61</span> - Personal Assist</li>
+                  <li class="code-item"><span class="code-value">61S</span> - Service Calls</li>
+                  <li class="code-item"><span class="code-value">62</span> - Escort</li>
+                  <li class="code-item"><span class="code-value">62M</span> - Medical Escort</li>
+                  <li class="code-item"><span class="code-value">63</span> - Vehicle Assist</li>
+                  <li class="code-item"><span class="code-value">65</span> - Lock Up / Lock Out</li>
+                  <li class="code-item"><span class="code-value">65B</span> - Building Open / Close</li>
+                  <li class="code-item"><span class="code-value">66</span> - Noise Complaint</li>
+                  <li class="code-item"><span class="code-value">67</span> - Door Alarm</li>
+                  <li class="code-item"><span class="code-value">68</span> - Delivery / Pickup</li>
+                  <li class="code-item"><span class="code-value">69</span> - Investigation / Follow-Up</li>
+                  <li class="code-item"><span class="code-value">93</span> - Cooler / Freezer Check</li>
+                  <li class="code-item"><span class="code-value">95</span> - Stove / Oven / Grill / Furnace Check</li>
+                  <li class="code-item"><span class="code-value">99</span> - Event Detail</li>
+                  <li class="code-item"><span class="code-value">100</span> - Special Attention</li>
+                  <li class="code-item"><span class="code-value">B15</span> - 15 Minute Break</li>
+                  <li class="code-item"><span class="code-value">B30</span> - 30 Minute Break</li>
+                  <li class="code-item"><span class="code-value">A</span> - Admin</li>
+                  <li class="code-item"><span class="code-value">B</span> - Base Support</li>
+                </ul>
+              </div>
+              
+              <!-- Status Codes Tab -->
+              <div class="tab-content" id="status-tab">
+                <div class="code-search">
+                  <input type="text" id="statusCodeSearch" placeholder="Search status codes...">
+                  <i class="fas fa-search"></i>
+                </div>
+                <div class="code-dictionary-list" id="statusCodeList">
+                  <div class="scroll-indicator" id="statusScrollIndicator"></div>
+                  <li class="code-item"><span class="code-value">10-1</span> - Poor Radio Transmission</li>
+                  <li class="code-item"><span class="code-value">10-2</span> - Good Radio Transmission</li>
+                  <li class="code-item"><span class="code-value">10-3</span> - Enroute / Transmission Only</li>
+                  <li class="code-item"><span class="code-value">10-4</span> - OK / Acknowledgement</li>
+                  <li class="code-item"><span class="code-value">10-5</span> - On Scene / On Site</li>
+                  <li class="code-item"><span class="code-value">10-6</span> - Busy / Standby</li>
+                  <li class="code-item"><span class="code-value">10-7</span> - Out of Service / Off Radio</li>
+                  <li class="code-item"><span class="code-value">10-8</span> - In Service / Available for Calls</li>
+                  <li class="code-item"><span class="code-value">10-9</span> - Repeat Radio Transmission Request</li>
+                  <li class="code-item"><span class="code-value">10-10</span> - Check for Nazareth Status (Student / Staff / Faculty)</li>
+                  <li class="code-item"><span class="code-value">10-11</span> - Report to Nazareth Safety Office</li>
+                  <li class="code-item"><span class="code-value">10-12</span> - Check for Nazareth Parking Permit Information</li>
+                  <li class="code-item"><span class="code-value">10-13</span> - Check for Nazareth Banned Status</li>
+                  <li class="code-item"><span class="code-value">10-14</span> - Welfare Check / Is Everything Fine?</li>
+                  <li class="code-item"><span class="code-value">10-15</span> - No Assistance Needed / Not Emergency / Start Other Units</li>
+                  <li class="code-item"><span class="code-value">10-16</span> - EMS or Campus Safety Needed</li>
+                  <li class="code-item"><span class="code-value">10-17</span> - Fire Department Needed (Specify Location)</li>
+                  <li class="code-item"><span class="code-value">10-18</span> - Dispatcher Needs Immediate Assistance</li>
+                  <li class="code-item"><span class="code-value">10-19</span> - Internal / Handline for Info</li>
+                  <li class="code-item"><span class="code-value">10-20</span> - Need Supervisor (Specify Location)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Service Call Reference List -->
+          <div class="resource-card" id="serviceCallsCard">
+            <div class="resource-header">
+              <div>
+                <i class="fas fa-wrench"></i>
+                Service Call Reference (61S)
+              </div>
+              <i class="fas fa-chevron-down resource-toggle"></i>
+            </div>
+            <div class="resource-content">
+              <ul class="code-dictionary-list">
+                <li class="code-item">Broken glass cleanup</li>
+                <li class="code-item">Door/window repair</li>
+                <li class="code-item">Salting walkway</li>
+                <li class="code-item">Animal removal</li>
+                <li class="code-item">Key assist</li>
+                <li class="code-item">Parking setup</li>
+                <li class="code-item">Tire inflation</li>
+                <li class="code-item">Water cleanup</li>
+                <li class="code-item">Vehicle assist (stuck)</li>
+                <li class="code-item">Water shutoff</li>
+                <li class="code-item">Other (manual entry up to 40 characters)</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Maps -->
+          <div class="resource-card" id="mapsCard">
+            <div class="resource-header">
+              <div>
+                <i class="fas fa-map"></i>
+                Maps
+              </div>
+              <i class="fas fa-chevron-down resource-toggle"></i>
+            </div>
+            <div class="resource-content">
+              <div class="resource-links">
+                <a href="https://www2.naz.edu/files/5314/9062/3301/MAD_Map.pdf" target="_blank" class="resource-link">
+                  <i class="fas fa-building"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Campus Buildings Map</div>
+                    <div class="resource-link-desc">PDF map of all campus buildings</div>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="https://maps.naz.edu/#lot-j" target="_blank" class="resource-link">
+                  <i class="fas fa-map-marked-alt"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Interactive Campus Map</div>
+                    <div class="resource-link-desc">Digital interactive map with building and parking lot details</div>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+                <a href="https://www2.naz.edu/files/5214/4294/7624/ParkingMap.pdf" target="_blank" class="resource-link">
+                  <i class="fas fa-parking"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Parking Lot Campus Map</div>
+                    <div class="resource-link-desc">PDF map of all campus parking lots</div>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Forms -->
+          <div class="resource-card" id="formsCard">
+            <div class="resource-header">
+              <div>
+                <i class="fas fa-file-alt"></i>
+                Forms
+              </div>
+              <i class="fas fa-chevron-down resource-toggle"></i>
+            </div>
+            <div class="resource-content">
+              <div class="resource-links">
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSenjNviu1hM7M1M2qjsCxHzaNPxjNSGPJIJYtM6DufyzKRRQQ/viewform" target="_blank" class="resource-link">
+                  <i class="fas fa-clipboard-list"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">99 Event Detail Form</div>
+                    <div class="resource-link-desc">Submit Event Detail documentation</div>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schedule -->
+          <div class="resource-card" id="scheduleCard">
+            <div class="resource-header">
+              <div>
+                <i class="fas fa-calendar-alt"></i>
+                Schedule
+              </div>
+              <i class="fas fa-chevron-down resource-toggle"></i>
+            </div>
+            <div class="resource-content">
+              <div class="resource-links">
+                <a href="https://docs.google.com/spreadsheets/d/1lPrSeGO3QK7JipgSp1QCDwU5GeNvm9SkWfRW_d4BPx4/edit#gid=1246389670" target="_blank" class="resource-link">
+                  <i class="fas fa-spreadsheet"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">Patrol Schedule</div>
+                    <div class="resource-link-desc">View current shift schedules</div>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- General Orders -->
+          <div class="resource-card" id="generalOrdersCard">
+            <div class="resource-header">
+              <div>
+                <i class="fas fa-file-contract"></i>
+                General Orders
+              </div>
+              <i class="fas fa-chevron-down resource-toggle"></i>
+            </div>
+            <div class="resource-content">
+              <div class="resource-links">
+                <a href="https://drive.google.com/drive/folders/1d7qmVsfoUcV-wHxeN4-cpBcHw9IJCfHH" target="_blank" class="resource-link">
+                  <i class="fas fa-folder-open"></i>
+                  <div class="resource-link-text">
+                    <div class="resource-link-title">General Orders Directory</div>
+                    <div class="resource-link-desc">Access department policies and procedures</div>
+                  </div>
+                  <i class="fas fa-external-link-alt"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Patrol Type Section - WITH EXPAND/COLLAPSE -->
+      <div class="patrol-type-card active" id="patrolTypeCard">
+        <div class="patrol-type-header">
+          <div>
+            <i class="fas fa-walking"></i>
+            Select Patrol Type
+          </div>
+          <i class="fas fa-chevron-down patrol-type-toggle"></i>
+        </div>
+        <div class="patrol-type-content">
+          <div class="patrol-buttons">
+            <button class="patrol-btn" id="detailBtn" onclick="setPatrolType('detail')">
+              <span class="patrol-icon">🅿️</span>
+              <span>DETAIL</span>
+            </button>
+            <button class="patrol-btn" id="mobileBtn" onclick="setPatrolType('mobile')">
+              <span class="patrol-icon">🚗</span>
+              <span>MOBILE</span>
+            </button>
+            <button class="patrol-btn active" id="walkBtn" onclick="setPatrolType('walk')">
+              <span class="patrol-icon">🚶</span>
+              <span>WALK</span>
+            </button>
+            <!-- Code 99 added as a patrol function -->
+            <button class="patrol-btn" id="event99PatrolBtn" onclick="handleEvent99Click()">
+              <span class="patrol-icon">📋</span>
+              <span>99 - EVENT DETAIL</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="location">Location</label>
+        <div class="searchable-select" id="locationSelect">
+          <input type="text" id="location" placeholder="Type to search locations..." autocomplete="off">
+          <div class="dropdown-options" id="locationOptions"></div>
+        </div>
+      </div>
+
+      <div class="entry-list">
+        <div class="entry-list-header">
+          <span>Patrol Log</span>
+          <button class="clear-btn" id="clearBtn">Clear All</button>
+        </div>
+        <div class="entry-list-subheader">
+          <span class="time-subheader">Time</span>
+          <span class="activity-subheader">Activity</span>
+        </div>
+        <div class="click-instructions">Click an entry to edit</div>
+        <div class="entry-list-content">
+          <ul id="entryList">
+            <!-- Entries will be added here dynamically -->
+          </ul>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="building-summary">
+          <h3>
+            <i class="fas fa-building"></i> Building Activity Summary
+            <button class="help-btn" id="codeHelpBtn">
+              <i class="fas fa-question-circle"></i>
+            </button>
+          </h3>
+          <div class="table-filters">
+            <input type="text" id="buildingFilter" placeholder="Filter buildings...">
+            <input type="text" id="codeFilter" placeholder="Filter codes...">
+          </div>
+          <div class="building-table-container">
+            <table class="building-table" id="buildingTable">
+              <!-- Building table will be generated here dynamically -->
+            </table>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <div class="action-bar maximized" id="actionBar">
+      <div class="action-bar-toggle">
+        <button class="toggle-btn" id="toggleActionBar">
+          <i class="fas fa-chevron-down"></i>
+        </button>
+      </div>
+      <div class="action-buttons">
+        <button class="action-btn save-btn" id="logBtn"><i class="fas fa-save"></i> Log Activity</button>
+        <button class="action-btn end-btn" id="generateBtn"><i class="fas fa-file-export"></i> End Shift</button>
+      </div>
     </div>
-  </footer>
+
+    <footer>
+      © 2025 Nazareth University Campus Safety — Internal Use Only
+      <div style="margin-top: 10px; font-size: 0.7rem; color: #888;">
+        Data is automatically saved locally • Use "Clear All" to reset during testing
+      </div>
+    </footer>
+  </div>
 
   <div class="notification" id="notification"></div>
 
-  <!-- All modals remain the same as previous version -->
+  <!-- All modals -->
   <div class="modal" id="endShiftModal">
     <div class="modal-content">
       <h2 class="modal-title"><i class="fas fa-file-export"></i> End Shift</h2>
@@ -1488,7 +1830,6 @@
     </div>
   </div>
 
-  <!-- All other modals remain unchanged from previous version -->
   <div class="modal" id="editConfirmModal">
     <div class="modal-content">
       <h2 class="modal-title"><i class="fas fa-edit"></i> Edit Entry</h2>
@@ -1615,7 +1956,7 @@
         </select>
       </div>
       <div class="time-input-group">
-        <label for="editEvent99StartTime">Start Time (HH:MM)</label>
+        <label for="editEvent99StartTime">Start Time (HH:)</label>
         <input type="time" id="editEvent99StartTime" step="60">
       </div>
       <div class="time-input-group">
@@ -1644,8 +1985,247 @@
     </div>
   </div>
 
+  <!-- 61S Service Call Modals -->
+  <div class="modal" id="serviceCallLocationModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-wrench"></i> Service Call Location</h2>
+      <p class="modal-text">Where is this Service Call taking place?</p>
+      <div class="location-type-group">
+        <label for="serviceCallLocationType">Location Type</label>
+        <select id="serviceCallLocationType">
+          <option value="">Select location type...</option>
+          <option value="Academic Buildings">Academic Buildings</option>
+          <option value="Residential Buildings">Residential Buildings</option>
+          <option value="Parking Lots">Parking Lots</option>
+          <option value="Roads">Roads</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="specific-location-group" id="serviceCallSpecificLocationGroup">
+        <label for="serviceCallSpecificLocation">Specific Location</label>
+        <select id="serviceCallSpecificLocation">
+          <option value="">Select a location...</option>
+        </select>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="serviceCallLocationCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="serviceCallLocationConfirm">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="serviceCallStartModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-play-circle"></i> Begin Service Call</h2>
+      <p class="modal-text">Are you ready to begin this Service Call? This will create a timestamp for the start of the task.</p>
+      <div class="time-input-group">
+        <label for="serviceCallStartTime">Start Time (HH:)</label>
+        <input type="time" id="serviceCallStartTime" step="60">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="serviceCallStartCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="serviceCallStartConfirm">Begin Service Call</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="serviceCallCompleteModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-stop-circle"></i> Complete Service Call</h2>
+      <p class="modal-text">Are you ready to complete this Service Call? This will record the end time and calculate duration.</p>
+      <div class="time-input-group">
+        <label for="serviceCallEndTime">End Time (HH:MM)</label>
+        <input type="time" id="serviceCallEndTime" step="60">
+      </div>
+      <div class="form-group">
+        <label for="serviceCallReason">Service Reason</label>
+        <select id="serviceCallReason">
+          <option value="">Select a reason...</option>
+          <option value="Broken glass cleanup">Broken glass cleanup</option>
+          <option value="Door/window repair">Door/window repair</option>
+          <option value="Salting walkway">Salting walkway</option>
+          <option value="Animal removal">Animal removal</option>
+          <option value="Key assist">Key assist</option>
+          <option value="Parking setup">Parking setup</option>
+          <option value="Tire inflation">Tire inflation</option>
+          <value="Water cleanup">Water cleanup</option>
+          <option value="Vehicle assist (stuck)">Vehicle assist (stuck)</option>
+          <option value="Water shutoff">Water shutoff</option>
+          <option value="other">Other (specify below)</option>
+        </select>
+      </div>
+      <div class="form-group" id="otherReasonGroup" style="display: none;">
+        <label for="otherServiceReason">Other Reason (max 40 characters)</label>
+        <input type="text" id="otherServiceReason" class="special-activity-input" maxlength="40">
+        <div class="char-counter" id="otherReasonCounter">0/40</div>
+      </div>
+      <p class="modal-text" id="serviceCallDurationDisplay">Duration: Calculating...</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="serviceCallCompleteCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="serviceCallCompleteConfirm">Complete Service Call</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="serviceCallEditModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-edit"></i> Edit Service Call</h2>
+      <div class="location-type-group">
+        <label for="editServiceCallLocationType">Location Type</label>
+        <select id="editServiceCallLocationType">
+          <option value="">Select location type...</option>
+          <option value="Academic Buildings">Academic Buildings</option>
+          <option value="Residential Buildings">Residential Buildings</option>
+          <option value="Parking Lots">Parking Lots</option>
+          <option value="Roads">Roads</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="specific-location-group">
+        <label for="editServiceCallSpecificLocation">Specific Location</label>
+        <select id="editServiceCallSpecificLocation">
+          <option value="">Select a location...</option>
+        </select>
+      </div>
+      <div class="time-input-group">
+        <label for="editServiceCallStartTime">Start Time (HH:MM)</label>
+        <input type="time" id="editServiceCallStartTime" step="60">
+      </div>
+      <div class="time-input-group">
+        <label for="editServiceCallEndTime">End Time (HH:MM)</label>
+        <input type="time" id="editServiceCallEndTime" step="60">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="editServiceCallReason">Service Reason</label>
+        <select id="editServiceCallReason">
+          <option value="">Select a reason...</option>
+          <option value="Broken glass cleanup">Broken glass cleanup</option>
+          <option value="Door/window repair">Door/window repair</option>
+          <option value="Salting walkway">Salting walkway</option>
+          <option value="Animal removal">Animal removal</option>
+          <option value="Key assist">Key assist</option>
+          <option value="Parking setup">Parking setup</option>
+          <option value="Tire inflation">Tire inflation</option>
+          <option value="Water cleanup">Water cleanup</option>
+          <option value="Vehicle assist (stuck)">Vehicle assist (stuck)</option>
+          <option value="Water shutoff">Water shutoff</option>
+          <option value="other">Other (specify below)</option>
+        </select>
+      </div>
+      <div class="form-group" id="editOtherReasonGroup" style="display: none;">
+        <label for="editOtherServiceReason">Other Reason (max 40 characters)</label>
+        <input type="text" id="editOtherServiceReason" class="special-activity-input" maxlength="40">
+        <div class="char-counter" id="editOtherReasonCounter">0/40</div>
+      </div>
+      <p class="modal-text" id="editServiceCallDurationDisplay">Duration: Calculating...</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-delete" id="serviceCallEditDelete">Delete Entry</button>
+        <div>
+          <button class="modal-btn modal-cancel" id="serviceCallEditCancel">Cancel</button>
+          <button class="modal-btn modal-confirm" id="serviceCallEditConfirm">Update Service Call</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 69 Investigation Modal -->
+  <div class="modal" id="investigationModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-search"></i> Investigation / Follow-Up</h2>
+      <p class="modal-text">Please enter the Report Number for this Investigation / Follow-Up:</p>
+      <div class="form-group">
+        <label for="reportNumber">Report Number</label>
+        <input type="text" id="reportNumber" class="special-activity-input" placeholder="e.g., 2025-00123">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="investigationCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="investigationConfirm">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- B15/B30 Break Modals -->
+  <div class="modal" id="breakModal">
+    <div class="modal-content">
+      <h2 class="modal-title" id="breakModalTitle"><i class="fas fa-coffee"></i> Break</h2>
+      <p class="modal-text">Please enter the name of the officer taking this break:</p>
+      <div class="form-group">
+        <label for="breakOfficerName">Officer Name</label>
+        <input type="text" id="breakOfficerName" class="special-activity-input" placeholder="Enter officer name...">
+      </div>
+      <div class="time-input-group">
+        <label for="breakEndTime">End Time (HH:MM)</label>
+        <input type="time" id="breakEndTime" step="60">
+        </div>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="breakCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="breakConfirm">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- A Admin Modal -->
+  <div class="modal" id="adminModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-briefcase"></i> Admin</h2>
+      <p class="modal-text">Please enter the name of the officer performing administrative duties:</p>
+      <div class="form-group">
+        <label for="adminOfficerName">Officer Name</label>
+        <input type="text" id="adminOfficerName" class="special-activity-input" placeholder="Enter officer name...">
+      </div>
+      <div class="time-input-group">
+        <label for="adminEndTime">End Time (HH:MM)</label>
+        <input type="time" id="adminEndTime" step="60">
+        </div>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="adminCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="adminConfirm">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- B Base Support Modal -->
+  <div class="modal" id="baseSupportModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-hands-helping"></i> Base Support</h2>
+      <p class="modal-text">Please select the type of base support provided:</p>
+      <div class="form-group">
+        <label for="baseSupportType">Support Type</label>
+        <select id="baseSupportType">
+          <option value="">Select a type...</option>
+          <option value="Dispatch Support">Dispatch Support</option>
+          <option value="Stakeholder Support">Stakeholder Support</option>
+          <option value="Administrative Support">Administrative Support</option>
+          <option value="Troubleshooting">Troubleshooting</option>
+          <option value="other">Other (specify below)</option>
+        </select>
+      </div>
+      <div class="form-group" id="otherBaseSupportGroup" style="display: none;">
+        <label for="otherBaseSupport">Other Type (max 40 characters)</label>
+        <input type="text" id="otherBaseSupport" class="special-activity-input" maxlength="40">
+        <div class="char-counter" id="otherBaseSupportCounter">0/40</div>
+      </div>
+      <div class="form-group">
+        <label for="baseSupportOfficerName">Officer Name</label>
+        <input type="text" id="baseSupportOfficerName" class="special-activity-input" placeholder="Enter officer name...">
+      </div>
+      <div class="time-input-group">
+        <label for="baseSupportEndTime">End Time (HH:MM)</label>
+        <input type="time" id="baseSupportEndTime" step="60">
+        </div>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="baseSupportCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="baseSupportConfirm">Save Entry</button>
+      </div>
+    </div>
+  </div>
+
   <script>
-    // Campus location data with Kearney Dining (corrected from Carney)
+    // Campus location data
     const buildings = {
       walk: [
         "Clock Tower Commons", "Founders Residence Hall", "Kearney Residence Hall",
@@ -1698,41 +2278,18 @@
         "Medaille Hall Kitchen",
         "O'Connor 1 Residence Hall",
         "O'Connor 2 Residence Hall",
+        "O'Connor 2 Residence Hall",
         "O'Connor 3 Residence Hall",
         "Portka Residence Hall",
         "Spanish House Kitchen",
         "Stadium Mech Room"
       ],
       "Parking Lots": [
-        "Lot A",
-        "Lot B",
-        "Lot C",
-        "Lot D",
-        "Lot E",
-        "Lot F",
-        "Lot G",
-        "Lot H",
-        "Lot I",
-        "Lot I Extension",
-        "Lot J",
-        "Lot J Extension",
-        "Lot K",
-        "Lot L",
-        "Lot M",
-        "Lot N",
-        "Lot O",
-        "Lot P",
-        "Lot Q",
-        "Lot Q Extension",
-        "Lot R",
-        "Lot S",
-        "Lot T",
-        "Facilities Lot",
-        "French House Lot",
-        "Grounds Lot",
-        "Montessori Lot",
-        "Peckham Lower-Level Handicap Parking",
-        "St. Bernard Lot"
+        "Lot A", "Lot B", "Lot C", "Lot D", "Lot E", "Lot F", "Lot G", "Lot H", "Lot I",
+        "Lot I Extension", "Lot J", "Lot J Extension", "Lot K", "Lot L", "Lot M", "Lot N",
+        "Lot O", "Lot P", "Lot Q", "Lot Q Extension", "Lot R", "Lot S", "Lot T",
+        "Facilities Lot", "French House Lot", "Grounds Lot", "Montessori Lot",
+        "Peckham Lower-Level Handicap Parking", "St. Bernard Lot"
       ],
       "Roads": [
         "Golden Flyer Road",
@@ -1743,11 +2300,14 @@
       "Other": []
     };
 
-    // Updated Activity codes with "P - Patrolled" as the first option and new codes
+    // Service Call location data (same as Event 99)
+    const serviceCallLocations = {...event99Locations};
+
+    // Activity codes
     const activityCodes = [
       { code: "P", description: "P - Patrolled" },
       { code: "61", description: "61 - Personal Assist" },
-      { code: "61B", description: "61B - TBD" },
+      { code: "61S", description: "61S - Service Calls" },
       { code: "62", description: "62 - Escort" },
       { code: "62M", description: "62M - Medical Escort" },
       { code: "63", description: "63 - Vehicle Assist" },
@@ -1760,10 +2320,38 @@
       { code: "93", description: "93 - Cooler / Freezer Check" },
       { code: "95", description: "95 - Stove / Oven / Grill / Furnace Check" },
       { code: "99", description: "99 - Event Detail" },
-      { code: "100", description: "100 - Special Attention" }
+      { code: "100", description: "100 - Special Attention" },
+      { code: "B15", description: "B15 - 15 Minute Break" },
+      { code: "B30", description: "B30 - 30 Minute Break" },
+      { code: "A", description: "A - Admin" },
+      { code: "B", description: "B - Base Support" }
     ];
 
-    // Updated Default activity codes and counts for specific buildings - CORRECTED Kearney Dining
+    // Status codes
+    const statusCodes = [
+      { code: "10-1", description: "Poor Radio Transmission" },
+      { code: "10-2", description: "Good Radio Transmission" },
+      { code: "10-3", description: "Enroute / Transmission Only" },
+      { code: "10-4", description: "OK / Acknowledgement" },
+      { code: "10-5", description: "On Scene / On Site" },
+      { code: "10-6", description: "Busy / Standby" },
+      { code: "10-7", description: "Out of Service / Off Radio" },
+      { code: "10-8", description: "In Service / Available for Calls" },
+      { code: "10-9", description: "Repeat Radio Transmission Request" },
+      { code: "10-10", description: "Check for Nazareth Status (Student / Staff / Faculty)" },
+      { code: "10-11", description: "Report to Nazareth Safety Office" },
+      { code: "10-12", description: "Check for Nazareth Parking Permit Information" },
+      { code: "10-13", description: "Check for Nazareth Banned Status" },
+      { code: "10-14", description: "Welfare Check / Is Everything Fine?" },
+      { code: "10-15", description: "No Assistance Needed / Not Emergency / Start Other Units" },
+      { code: "10-16", description: "EMS or Campus Safety Needed" },
+      { code: "10-17", description: "Fire Department Needed (Specify Location)" },
+      { code: "10-18", description: "Dispatcher Needs Immediate Assistance" },
+      { code: "10-19", description: "Internal / Handline for Info" },
+      { code: "10-20", description: "Need Supervisor (Specify Location)" }
+    ];
+
+    // Default activity codes and counts for specific buildings
     const buildingDefaults = {
       // Residential Buildings
       "Breen Residence Hall": { codes: ["P"], counts: { "P": 1 } },
@@ -1781,6 +2369,7 @@
       "O'Connor 3 Residence Hall": { codes: ["P"], counts: { "P": 1 } },
       "Portka Residence Hall": { codes: ["P"], counts: { "P": 1 } },
       "Spanish House Kitchen": { codes: ["P", "95"], counts: { "P": 1, "95": 2 } },
+      "Stadium Mech Room": { codes: ["P", "95"], counts: { "P": 1, "95": 1 } },
       "Stadium Mech Room": { codes: ["P", "95"], counts: { "P": 1, "95": 1 } },
 
       // Academic Buildings
@@ -1803,9 +2392,17 @@
     let currentLocations = [];
     let currentlyEditingEntryId = null;
     let activeEvent99 = JSON.parse(localStorage.getItem('activeEvent99')) || null;
+    let activeServiceCall = JSON.parse(localStorage.getItem('activeServiceCall')) || null;
     let modalSelectedActivityCodes = new Set();
+    let officerInfo = JSON.parse(localStorage.getItem('officerInfo')) || null;
 
     // DOM Elements
+    const loginContainer = document.getElementById('loginContainer');
+    const mainApp = document.getElementById('mainApp');
+    const loginForm = document.getElementById('loginForm');
+    const loginError = document.getElementById('loginError');
+    const officerName = document.getElementById('officerName');
+    const officerUnit = document.getElementById('officerUnit');
     const locationSelect = document.getElementById('location');
     const locationOptions = document.getElementById('locationOptions');
     const entryList = document.getElementById('entryList');
@@ -1843,8 +2440,92 @@
     const toggleActionBar = document.getElementById('toggleActionBar');
     const event99PatrolBtn = document.getElementById('event99PatrolBtn');
 
+    // Service Call Modals
+    const serviceCallLocationModal = document.getElementById('serviceCallLocationModal');
+    const serviceCallLocationType = document.getElementById('serviceCallLocationType');
+    const serviceCallSpecificLocation = document.getElementById('serviceCallSpecificLocation');
+    const serviceCallStartModal = document.getElementById('serviceCallStartModal');
+    const serviceCallStartTimeInput = document.getElementById('serviceCallStartTime');
+    const serviceCallCompleteModal = document.getElementById('serviceCallCompleteModal');
+    const serviceCallEndTimeInput = document.getElementById('serviceCallEndTime');
+    const serviceCallReason = document.getElementById('serviceCallReason');
+    const otherServiceReason = document.getElementById('otherServiceReason');
+    const otherReasonGroup = document.getElementById('otherReasonGroup');
+    const otherReasonCounter = document.getElementById('otherReasonCounter');
+    const serviceCallDurationDisplay = document.getElementById('serviceCallDurationDisplay');
+    const serviceCallEditModal = document.getElementById('serviceCallEditModal');
+    const editServiceCallLocationType = document.getElementById('editServiceCallLocationType');
+    const editServiceCallSpecificLocation = document.getElementById('editServiceCallSpecificLocation');
+    const editServiceCallStartTime = document.getElementById('editServiceCallStartTime);
+    const editServiceCallEndTime = document.getElementById('editServiceCallEndTime');
+    const editServiceCallReason = document.getElementById('editServiceCallReason');
+    const editOtherServiceReason = document.getElementById('editOtherServiceReason');
+    const editOtherReasonGroup = document.getElementById('editOtherReasonGroup');
+    const editOtherReasonCounter = document.getElementById('editOtherReasonCounter');
+    const editServiceCallDurationDisplay = document.getElementById('editServiceCallDurationDisplay');
+
+    // Investigation Modal
+    const investigationModal = document.getElementById('investigationModal');
+    const reportNumber = document.getElementById('reportNumber');
+
+    // Break Modal
+    const breakModal = document.getElementById('breakModal');
+    const breakModalTitle = document.getElementById('breakModalTitle');
+    const breakOfficerName = document.getElementById('breakOfficerName');
+    const breakEndTime = document.getElementById('breakEndTime');
+
+    // Admin Modal
+    const adminModal = document.getElementById('adminModal');
+    const adminOfficerName = document.getElementById('adminOfficerName');
+    const adminEndTime = document.getElementById('adminEndTime');
+
+    // Base Support Modal
+    const baseSupportModal = document.getElementById('baseSupportModal');
+    const baseSupportType = document.getElementById('baseSupportType');
+    const otherBaseSupport = document.getElementById('otherBaseSupport');
+    const otherBaseSupportGroup = document.getElementById('otherBaseSupportGroup');
+    const otherBaseSupportCounter = document.getElementById('otherBaseSupportCounter');
+    const baseSupportOfficerName = document.getElementById('baseSupportOfficerName');
+    const baseSupportEndTime = document.getElementById('baseSupportEndTime');
+
+    // Code Dictionary Tab Elements
+    const tabButtons = document.querySelectorAll('.tab-button');
+    const tabContents = document.querySelectorAll('.tab-content');
+    const activityCodeSearch = document.getElementById('activityCodeSearch');
+    const statusCodeSearch = document.getElementById('statusCodeSearch');
+    const activityCodeList = document.getElementById('activityCodeList');
+    const statusCodeList = document.getElementById('statusCodeList');
+    const activityScrollIndicator = document.getElementById('activityScrollIndicator');
+    const statusScrollIndicator = document.getElementById('statusScrollIndicator');
+
     // Initialize the application
     function init() {
+      // Check if officer is already logged in
+      if (officerInfo) {
+        showMainApp();
+      } else {
+        showLoginScreen();
+      }
+    }
+
+    // Show login screen
+    function showLoginScreen() {
+      loginContainer.style.display = 'flex';
+      mainApp.style.display = 'none';
+      
+      // Add event listener for login form
+      loginForm.addEventListener('submit', handleLogin);
+    }
+
+    // Show main app
+    function showMainApp() {
+      loginContainer.style.display = 'none';
+      mainApp.style.display = 'block';
+      
+      // Update officer info in header
+      officerName.textContent = `${officerInfo.firstName} ${officerInfo.lastName}`;
+      officerUnit.textContent = officerInfo.unitNumber;
+      
       // Set up patrol type buttons
       setPatrolType(currentPatrolType);
       
@@ -1882,6 +2563,45 @@
       buildingFilter.addEventListener('input', updateBuildingTable);
       codeFilter.addEventListener('input', updateBuildingTable);
       
+      // Service Call event listeners
+      document.getElementById('serviceCallLocationCancel').addEventListener('click', hideServiceCallLocationModal);
+      document.getElementById('serviceCallLocationConfirm').addEventListener('click', proceedToServiceCallStart);
+      document.getElementById('serviceCallStartCancel').addEventListener('click', hideServiceCallStartModal);
+      document.getElementById('serviceCallStartConfirm').addEventListener('click', startServiceCall);
+      document.getElementById('serviceCallCompleteCancel').addEventListener('click', hideServiceCallCompleteModal);
+      document.getElementById('serviceCallCompleteConfirm').addEventListener('click', completeServiceCall);
+      document.getElementById('serviceCallEditCancel').addEventListener('click', hideServiceCallEditModal);
+      document.getElementById('serviceCallEditConfirm').addEventListener('click', updateServiceCallEntry);
+      document.getElementById('serviceCallEditDelete').addEventListener('click', showDeleteConfirmModal);
+      
+      // Investigation event listeners
+      document.getElementById('investigationCancel').addEventListener('click', hideInvestigationModal);
+      document.getElementById('investigationConfirm').addEventListener('click', saveInvestigationEntry);
+      
+      // Break event listeners
+      document.getElementById('breakCancel').addEventListener('click', hideBreakModal);
+      document.getElementById('breakConfirm').addEventListener('click', saveBreakEntry);
+      
+      // Admin event listeners
+      document.getElementById('adminCancel').addEventListener('click', hideAdminModal);
+      document.getElementById('adminConfirm').addEventListener('click', saveAdminEntry);
+      
+      // Base Support event listeners
+      document.getElementById('baseSupportCancel').addEventListener('click', hideBaseSupportModal);
+      document.getElementById('baseSupportConfirm').addEventListener('click', saveBaseSupportEntry);
+      
+      // Character counter event listeners
+      otherServiceReason.addEventListener('input', updateOtherReasonCounter);
+      editOtherServiceReason.addEventListener('input', updateEditOtherReasonCounter);
+      otherBaseSupport.addEventListener('input', updateOtherBaseSupportCounter);
+      
+      // Service call reason change event listeners
+      serviceCallReason.addEventListener('change', handleServiceCallReasonChange);
+      editServiceCallReason.addEventListener('change', handleEditServiceCallReasonChange);
+      
+      // Base support type change event listener
+      baseSupportType.addEventListener('change', handleBaseSupportTypeChange);
+      
       // Set up searchable location dropdown
       setupSearchableLocation();
       
@@ -1894,12 +2614,17 @@
       // Set up location type change listener
       event99LocationType.addEventListener('change', handleEvent99LocationTypeChange);
       editEvent99LocationType.addEventListener('change', handleEditEvent99LocationTypeChange);
+      serviceCallLocationType.addEventListener('change', handleServiceCallLocationTypeChange);
+      editServiceCallLocationType.addEventListener('change', handleEditServiceCallLocationTypeChange);
       
       // Set up resource card toggles
       setupResourceCards();
       
       // Set up patrol type card toggle
       setupPatrolTypeCard();
+      
+      // Set up code dictionary tabs
+      setupCodeDictionaryTabs();
       
       // Update UI with existing data
       updateEntryList();
@@ -1909,6 +2634,77 @@
       if (patrolLog.length === 0) {
         showNotification('Welcome to the Campus Safety Patrol Log', 'info', 'fas fa-info-circle');
       }
+    }
+
+    // Setup code dictionary tabs
+    function setupCodeDictionaryTabs() {
+      // Tab switching functionality
+      tabButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          // Remove active class from all tabs and contents
+          tabButtons.forEach(btn => btn.classList.remove('active');
+          tabContents.forEach(content => content.classList.remove('active');
+          
+          // Add active class to clicked tab and corresponding content
+          button.classList.add('active');
+          const tabId = button.getAttribute('data-tab');
+          document.getElementById(`${tabId}-tab`).classList.add('active');
+        });
+      });
+      
+      // Search functionality for activity codes
+      activityCodeSearch.addEventListener('input', () => {
+        const searchTerm = activityCodeSearch.value.toLowerCase();
+        const items = activityCodeList.querySelectorAll('.code-item');
+        
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // Show/hide scroll indicator based on scroll
+        const list = document.getElementById('activityCodeList');
+        const indicator = document.getElementById('activityScrollIndicator');
+        
+        list.addEventListener('scroll', () => {
+          if (list.scrollTop > 10) {
+            indicator.classList.add('visible');
+          } else {
+            indicator.classList.remove('visible');
+          }
+        });
+      });
+      
+      // Search functionality for status codes
+      statusCodeSearch.addEventListener('input', () => {
+        const searchTerm = statusCodeSearch.value.toLowerCase();
+        const items = statusCodeList.querySelectorAll('.code-item');
+        
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          if (text.includes(searchTerm)) {
+            item.style.display = 'block';
+          } else {
+            item.style.display = 'show';
+          }
+        });
+        
+        // Show/hide scroll indicator based on scroll
+        const list = document.getElementById('statusCodeList');
+        const indicator = document.getElementById('statusScrollIndicator');
+        
+        list.addEventListener('scroll', () => {
+          if (list.scrollTop > 10) {
+            indicator.classList.add('visible');
+          } else {
+            indicator.classList.remove('visible');
+          }
+        });
+      });
     }
 
     // Set up patrol type card toggle
@@ -2137,7 +2933,7 @@
     function updateEvent99Button() {
       if (activeEvent99) {
         event99PatrolBtn.classList.add('active');
-        event99PatrolBtn.innerHTML = '<span class="patrol-icon">⏱️</span><span>99 - EVENT DETAIL (Active)</span>';
+        event99PatrolBtn.innerHTML = '<span class="patrol-icon">⏱️️</span><span>99 - EVENT DETAIL (Active)</span>';
       } else {
         event99PatrolBtn.classList.remove('active');
         event99PatrolBtn.innerHTML = '<span class="patrol-icon">📋</span><span>99 - EVENT DETAIL</span>';
@@ -2335,6 +3131,7 @@
       // Close all modals
       hideCountEntryModal();
       hideEvent99EditModal();
+      hideServiceCallEditModal();
       hideDeleteConfirmModal();
       
       showNotification('Entry deleted successfully!', 'success', 'fas fa-check-circle');
@@ -2567,6 +3364,705 @@
       hideEvent99EditModal();
     }
 
+    // Service Call Functions
+    function handleServiceCallClick() {
+      if (activeServiceCall) {
+        // If there's an active service call, show complete modal
+        showServiceCallCompleteModal();
+      } else {
+        // Otherwise, show location selection modal first
+        showServiceCallLocationModal();
+      }
+    }
+
+    // Show Service Call location modal
+    function showServiceCallLocationModal() {
+      // Reset form
+      serviceCallLocationType.value = '';
+      serviceCallSpecificLocation.innerHTML = '<option value="">Select a location...</option>';
+      
+      serviceCallLocationModal.classList.add('show');
+    }
+
+    // Hide Service Call location modal
+    function hideServiceCallLocationModal() {
+      serviceCallLocationModal.classList.remove('show');
+    }
+
+    // Handle Service Call location type change
+    function handleServiceCallLocationTypeChange() {
+      const locationType = serviceCallLocationType.value;
+      serviceCallSpecificLocation.innerHTML = '<option value="">Select a location...</option>';
+      
+      if (locationType && serviceCallLocations[locationType]) {
+        serviceCallLocations[locationType].forEach(location => {
+          const option = document.createElement('option');
+          option.value = location;
+          option.textContent = location;
+          serviceCallSpecificLocation.appendChild(option);
+        });
+      }
+    }
+
+    // Handle Edit Service Call location type change
+    function handleEditServiceCallLocationTypeChange() {
+      const locationType = editServiceCallLocationType.value;
+      editServiceCallSpecificLocation.innerHTML = '<option value="">Select a location...</option>';
+      
+      if (locationType && serviceCallLocations[locationType]) {
+        serviceCallLocations[locationType].forEach(location => {
+          const option = document.createElement('option');
+          option.value = location;
+          option.textContent = location;
+          editServiceCallSpecificLocation.appendChild(option);
+        });
+      }
+    }
+
+    // Proceed to Service Call start after location selection
+    function proceedToServiceCallStart() {
+      const locationType = serviceCallLocationType.value;
+      const specificLocation = serviceCallSpecificLocation.value;
+      
+      // Validate form
+      if (!locationType) {
+        showNotification('Please select a location type.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!specificLocation) {
+        showNotification('Please select a specific location.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Store location data for later use
+      window.serviceCallLocationData = {
+        type: locationType,
+        specific: specificLocation
+      };
+      
+      // Proceed to start modal
+      hideServiceCallLocationModal();
+      showServiceCallStartModal();
+    }
+
+    // Show Service Call start modal
+    function showServiceCallStartModal() {
+      // Set current time for start
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      serviceCallStartTimeInput.value = `${hours}:${minutes}`;
+      
+      serviceCallStartModal.classList.add('show');
+    }
+
+    // Hide Service Call start modal
+    function hideServiceCallStartModal() {
+      serviceCallStartModal.classList.remove('show');
+    }
+
+    // Show Service Call complete modal
+    function showServiceCallCompleteModal() {
+      if (!activeServiceCall) return;
+      
+      // Set current time for end
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      serviceCallEndTimeInput.value = `${hours}:${minutes}`;
+      
+      // Calculate and display duration
+      updateServiceCallDuration();
+      
+      serviceCallCompleteModal.classList.add('show');
+    }
+
+    // Hide Service Call complete modal
+    function hideServiceCallCompleteModal() {
+      serviceCallCompleteModal.classList.remove('show');
+    }
+
+    // Show Service Call edit modal
+    function showServiceCallEditModal(entryId) {
+      const entry = patrolLog.find(e => e.id === entryId);
+      if (!entry || !entry.serviceCallData) return;
+      
+      // Fill form with existing data
+      editServiceCallLocationType.value = entry.serviceCallData.locationType || '';
+      
+      // Populate specific location dropdown based on type
+      handleEditServiceCallLocationTypeChange();
+      
+      // Set specific location
+      setTimeout(() => {
+        editServiceCallSpecificLocation.value = entry.location;
+      }, 100);
+      
+      // Convert times from HH:MM:SS to HH:MM
+      const startTimeParts = entry.serviceCallData.startTime.split(':');
+      editServiceCallStartTime.value = `${startTimeParts[0]}:${startTimeParts[1]}`;
+      
+      const endTimeParts = entry.serviceCallData.endTime.split(':');
+      editServiceCallEndTime.value = `${endTimeParts[0]}:${endTimeParts[1]}`;
+      
+      // Set service reason
+      if (entry.serviceCallData.reason) {
+        if (serviceCallReason.querySelector(`option[value="${entry.serviceCallData.reason}"]`)) {
+          editServiceCallReason.value = entry.serviceCall.reason;
+        } else {
+          editServiceCallReason.value = 'other';
+          editOtherServiceReason.value = entry.serviceCall.reason;
+          editOtherReasonGroup.style.display = 'block';
+        }
+      }
+      
+      // Calculate and display duration
+      updateEditServiceCallDuration();
+      
+      // Store the entry ID for updating
+      currentlyEditingEntryId = entryId;
+      
+      serviceCallEditModal.classList.add('show');
+    }
+
+    // Hide Service Call edit modal
+    function hideServiceCallEditModal() {
+      serviceCallEditModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+
+    // Update Service Call start time
+    function updateServiceCallStartTime() {
+      // This function can be expanded if needed
+    }
+
+    // Update Service Call duration display
+    function updateServiceCallDuration() {
+      if (!activeServiceCall) return;
+      
+      const startTime = activeServiceCall.startTime;
+      const endTime = serviceCallEndTimeInput.value;
+      
+      if (!startTime || !endTime) return;
+      
+      // Calculate duration in minutes
+      const start = new Date(`2000-01-01T${startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events (if end time is earlier than start time, assume next day)
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+      }
+      
+      displayDuration(durationMinutes, serviceCallDurationDisplay);
+    }
+
+    // Update edit Service Call duration display
+    function updateEditServiceCallDuration() {
+      const startTime = editServiceCallStartTime.value;
+      const endTime = editServiceCallEndTime.value;
+      
+      if (!startTime || !endTime) return;
+      
+      // Calculate duration in minutes
+      const start = new Date(`2000-01-01T${startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+      }
+      
+      displayDuration(durationMinutes, editServiceCallDurationDisplay);
+    }
+
+    // Complete Service Call
+    function completeServiceCall() {
+      if (!activeServiceCall) return;
+      
+      const endTime = serviceCallEndTimeInput.value;
+      let reason = serviceCallReason.value;
+      
+      if (!endTime) {
+        showNotification('Please select a valid end time.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // If "other" is selected, use the custom reason
+      if (reason === 'other') {
+        reason = otherServiceReason.value.trim();
+        if (!reason) {
+          showNotification('Please enter a custom reason.', 'error', 'fas fa-exclamation-triangle');
+          return;
+        }
+      }
+      
+      // Calculate duration
+      const start = new Date(`2000-01-01T${activeServiceCall.startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+      }
+      
+      const hours = Math.floor(durationMinutes / 60);
+      const minutes = Math.round(durationMinutes % 60);
+      
+      // Create completed service call entry
+      const serviceCallEntry = {
+        id: activeServiceCall.id,
+        time: activeServiceCall.startTimeFull,
+        date: activeServiceCall.date,
+        location: activeServiceCall.location,
+        activities: [
+          { code: "61S", count: 1 }
+        ],
+        totalCount: 1,
+        patrolType: 'serviceCall',
+        serviceCallData: {
+          startTime: activeServiceCall.startTimeFull,
+          endTime: `${endTime}:00`,
+          durationMinutes: durationMinutes,
+          durationText: `${hours > 0 ? `${hours}h ` : ''}${minutes}m`,
+          locationType: activeServiceCall.locationType,
+          reason: reason
+        }
+      };
+      
+      // Add to log and save
+      patrolLog.unshift(serviceCallEntry);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Clear active service call
+      activeServiceCall = null;
+      localStorage.removeItem('activeServiceCall');
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      hideServiceCallCompleteModal();
+      
+      showNotification('Service Call completed successfully!', 'success', 'fas fa-stop-circle');
+    }
+
+    // Update Service Call entry
+    function updateServiceCallEntry() {
+      if (!currentlyEditingEntryId) return;
+      
+      const locationType = editServiceCallLocationType.value;
+      const specificLocation = editServiceCallSpecificLocation.value;
+      const startTime = editServiceCallStartTime.value;
+      const endTime = editServiceCallEndTime.value;
+      let reason = editServiceCallReason.value;
+      
+      // Validate form
+      if (!locationType) {
+        showNotification('Please select a location type.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!specificLocation) {
+        showNotification('Please select a specific location.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!startTime || !endTime) {
+        showNotification('Please select both start and end times.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!reason) {
+        showNotification('Please select a service reason.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // If "other" is selected, use the custom reason
+      if (reason === 'other') {
+        reason = editOtherServiceReason.value.trim();
+        if (!reason) {
+          showNotification('Please enter a custom reason.', 'error', 'fas fa-exclamation-triangle');
+          return;
+        }
+      }
+      
+      // Calculate duration
+      const start = new Date(`2000-01-01T${startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+      }
+      
+      const hours = Math.floor(durationMinutes / 60);
+      const minutes = Math.round(durationMinutes % 60);
+      
+      const hours = Math.floor(durationMinutes / 60);
+      const minutes = Math.round(durationMinutes % 60);
+      
+      // Find and update the entry
+      const entryIndex = patrolLog.findIndex(e => e.id === currentlyEditingEntryId);
+      if (entryIndex !== -1) {
+        patrolLog[entryIndex].location = specificLocation;
+        patrolLog[entryIndex].time = `${startTime}:00`;
+        patrolLog[entryIndex].time = `${startTimeParts[0]}:${startTimeParts[1]}`;
+        patrolLog[entryIndex].event99Data = {
+          startTime: `${startTimeParts[0]}:${startTimeParts[1]}`,
+          endTime: `${endTimeParts[0]}:${endTimeParts[1]}`,
+          durationMinutes: durationMinutes,
+          durationText: `${hours > 0 ? `${hours}h ` : ''}${minutes}m`,
+          locationType: locationType
+        };
+        
+        localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+        
+        updateEntryList();
+        updateBuildingTable();
+        
+        showNotification('Service Call updated successfully!', 'success', 'fas fa-check-circle');
+      }
+      
+      hideServiceCallEditModal();
+    }
+
+    // Handle service call reason change
+    function handleServiceCallReasonChange() {
+      if (serviceCallReason.value === 'other') {
+        otherReasonGroup.style.display = 'block';
+      } else {
+        otherReasonGroup.style.display = 'none';
+      }
+    }
+
+    // Handle edit service call reason change
+    function handleEditServiceCallReasonChange() {
+      if (editServiceCallReason.value === 'other') {
+        editOtherReasonGroup.style.display = 'block';
+      } else {
+        editOtherReasonGroup.style.display = 'none';
+      }
+    }
+
+    // Handle base support type change
+    function handleBaseSupportTypeChange() {
+      if (baseSupportType.value === 'other') {
+        otherBaseSupportGroup.style.display = 'block';
+      } else {
+        otherBaseSupportGroup.style.display = 'none';
+      }
+    }
+
+    // Update character counters
+    function updateOtherReasonCounter() {
+      const length = otherServiceReason.value.length;
+      otherReasonCounter.textContent = `${length}/40`;
+      
+      if (length > 35) {
+        otherReasonCounter.classList.add('warning');
+      } else {
+        otherReasonCounter.classList.remove('warning');
+      }
+      
+      if (length >= 40) {
+        otherReasonCounter.classList.add('error');
+      } else {
+        otherReasonCounter.classList.remove('error');
+      }
+    }
+
+    function updateEditOtherReasonCounter() {
+      const length = editOtherServiceReason.value.length;
+      editOtherReasonCounter.textContent = `${length}/40`;
+      
+      if (length > 35) {
+        editOtherReasonCounter.classList.add('warning');
+      } else {
+        editOtherReasonCounter.classList.remove('warning');
+      }
+      
+      if (length >= 40) {
+        editOtherReasonCounter.classList.add('error');
+      } else {
+        editOtherReasonCounter.remove('error');
+      }
+    }
+
+    function updateOtherBaseSupportCounter() {
+      const length = otherBaseSupport.value.length;
+      otherBaseSupportCounter.textContent = `${length}/40`;
+      
+      if (length > 35) {
+        otherBaseSupportCounter.add('warning');
+      } else {
+        otherBaseSupportCounter.remove('warning');
+      }
+      
+      if (length >= 40) {
+        otherBaseSupportCounter.add('error');
+      } else {
+        otherBaseSupportCounter.remove('error');
+      }
+    }
+
+    // Investigation Functions
+    function showInvestigationModal() {
+      reportNumber.value = '';
+      investigationModal.classList.add('show');
+    }
+
+    function hideInvestigationModal() {
+      investigationModal.classList.remove('show');
+    }
+
+    function saveInvestigationEntry() {
+      const reportNum = reportNumber.value.trim();
+      
+      if (!reportNum) {
+        showNotification('Please enter a report number.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Set current time
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      const time = `${hours}:${minutes}:00`;
+      
+      // Create investigation entry
+      const investigationEntry = {
+        id: Date.now(),
+        time: time,
+        date: new Date().toLocaleDateString(),
+        location: locationSelect.value || 'Unknown',
+        activities: [
+          { code: "69", count: 1 }
+        ],
+        totalCount: 1,
+        patrolType: currentPatrolType,
+        investigationData: {
+          reportNumber: reportNum
+        }
+      };
+      
+      // Add to log and save
+      patrolLog.unshift(investigationEntry);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      hideInvestigationModal();
+      
+      showNotification('Investigation entry saved successfully!', 'success', 'fas fa-check-circle');
+    }
+
+    // Break Functions
+    function showBreakModal(breakType) {
+      breakModalTitle.innerHTML = `<i class="fas fa-coffee"></i> ${breakType === 'B15' ? '15 Minute' : '30 Minute'} Break`;
+      breakOfficerName.value = '';
+      
+      // Set current time for end
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      breakEndTime.value = `${hours}:${minutes}`;
+      
+      // Store break type for later use
+      window.currentBreakType = breakType;
+      
+      breakModal.classList.add('show');
+    }
+
+    function hideBreakModal() {
+      breakModal.classList.remove('show');
+      window.currentBreakType = null;
+    }
+
+    function saveBreakEntry() {
+      const officerName = breakOfficerName.value.trim();
+      const endTime = breakEndTime.value;
+      const breakType = window.currentBreakType;
+      
+      if (!officerName) {
+        showNotification('Please enter an officer name.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!endTime) {
+        showNotification('Please select an end time.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Create break entry
+      const breakEntry = {
+        id: Date.now(),
+        time: `${endTime}:00`,
+        date: new Date().toLocaleDateString(),
+        location: 'Campus Safety',
+        activities: [
+          { code: breakType, count: 1 }
+        ],
+        totalCount: 1,
+        patrolType: 'break',
+        breakData: {
+          officerName: officerName,
+          breakType: breakType
+        }
+      };
+      
+      // Add to log and save
+      patrolLog.unshift(breakEntry);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      hideBreakModal();
+      
+      showNotification(`${breakType === 'B15' ? '15 Minute' : '30 Minute'} Break entry saved successfully!`, 'success', 'fas fa-check-circle');
+    }
+
+    // Admin Functions
+    function showAdminModal() {
+      adminOfficerName.value = '';
+      
+      // Set current time for end
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      adminEndTime.value = `${hours}:${minutes}`;
+      
+      adminModal.classList.add('show');
+    }
+
+    function hideAdminModal() {
+      adminModal.classList.remove('show');
+    }
+
+    function saveAdminEntry() {
+      const officerName = adminOfficerName.value.trim();
+      const endTime = adminEndTime.value;
+      
+      if (!officerName) {
+        showNotification('Please enter an officer name.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!endTime) {
+        showNotification('Please select an end time.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Create admin entry
+      const adminEntry = {
+        id: Date.now(),
+        time: `${endTime}:00`,
+        date: new Date().toLocaleDateString(),
+        location: 'Campus Safety',
+        activities: [
+          { code: "A", count: 1 }
+        ],
+        totalCount: 1,
+        patrolType: 'admin',
+        adminData: {
+          officerName: officerName
+        }
+      };
+      
+      // Add to log and save
+      patrolLog.unshift(adminEntry);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      hideAdminModal();
+      
+      showNotification('Admin entry saved successfully!', 'success', 'fas fa-check-circle');
+    }
+
+    // Base Support Functions
+    function showBaseSupportModal() {
+      baseSupportType.value = '';
+      otherBaseSupport.value = '';
+      otherBaseSupportGroup.style.display = 'none';
+      baseSupportOfficerName.value = '';
+      baseSupportEndTime.value = `${hours}:${minutes}`;
+      
+      baseSupportModal.classList.add('show');
+    }
+
+    function hideBaseSupportModal() {
+      baseSupportModal.classList.remove('show');
+    }
+
+    function saveBaseSupportEntry() {
+      let supportType = baseSupportType.value;
+      const officerName = baseSupportOfficerName.value.trim();
+      const endTime = baseSupportEndTime.value;
+      
+      if (!supportType) {
+        showNotification('Please select a support type.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (supportType === 'other') {
+        supportType = otherBaseSupport.value.trim();
+        if (!supportType) {
+          showNotification('Please enter a custom support type.', 'error', 'fas fa-exclamation-triangle');
+          return;
+        }
+      }
+      
+      if (!officerName) {
+        showNotification('Please enter an officer name.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!endTime) {
+        showNotification('Please select an end time.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Create base support entry
+      const baseSupportEntry = {
+        id: Date.now(),
+        time: `${endTime}:00`,
+        date: new Date().toLocaleDateString(),
+        location: 'Campus Safety',
+        activities: [
+          { code: "B", count: 1 }
+        ],
+        totalCount: 1,
+        patrolType: 'baseSupport',
+        baseSupportData: {
+          supportType: supportType,
+          officerName: officerName
+        }
+      };
+      
+      // Add to log and save
+      patrolLog.unshift(baseSupportEntry);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      hideBaseSupportModal();
+      
+      showNotification('Base Support entry saved successfully!', 'success', 'fas fa-check-circle');
+    }
+
     // Show count entry modal for NEW entries
     function showCountEntryModal() {
       const location = locationSelect.value;
@@ -2618,7 +4114,7 @@
           input.type = 'number';
           input.className = 'count-input-field';
           input.min = '1';
-          input.value = getDefaultCount(location, code);
+          input.value = 1;
           input.setAttribute('data-code', code);
           
           const removeBtn = document.createElement('button');
@@ -2632,21 +4128,23 @@
             // Uncheck the checkbox
             const checkbox = document.getElementById(`modal-activity-${code}`);
             if (checkbox) checkbox.checked = false;
+            checkbox.checked = false;
             // Remove the row
             countRow.remove();
           });
-          
           countRow.appendChild(label);
           countRow.appendChild(input);
           countRow.appendChild(removeBtn);
           countInputsContainer.appendChild(countRow);
-        }
-      });
+        });
+        countInputsContainer.appendChild(countRow);
+      }
       
       // Set editing state to null (new entry)
       currentlyEditingEntryId = null;
       // Hide delete button for new entries
       document.getElementById('countEntryDelete').style.display = 'none';
+      countEntryModal.classList.add('show');
       countEntryModal.classList.add('show');
     }
     
@@ -2709,24 +4207,427 @@
             // Remove the row
             countRow.remove();
           });
-          
+        });
           countRow.appendChild(label);
           countRow.appendChild(input);
           countRow.appendChild(removeBtn);
           countInputsContainer.appendChild(countRow);
-        }
+        });
       });
       
       // Show delete button for editing existing entries
       document.getElementById('countEntryDelete').style.display = 'block';
+      document.getElementById('countEntryDelete').style.display = 'block';
       
-      hideEditConfirmModal();
-      countEntryModal.classList.add('show');
+      // Show delete button for editing existing entries
+      document.getElementById('countEntryDelete').style.display = 'block';
+      
+      // Show delete button for editing existing entries
+      document.getElementById('countEntryDelete').style.display = 'block';
+      
+      // Show regular edit confirmation modal
+      editConfirmModal.classList.add('show');
+    }
+    
+    // Hide edit confirmation modal
+    function hideEditConfirmModal() {
+      editConfirmModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+    
+    // Show the end shift confirmation modal
+    function showEndShiftModal() {
+      if (patrolLog.length === 0 && !activeEvent99 && !activeServiceCall) {
+        showNotification('No entries to export.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      endShiftModal.classList.add('show');
+    }
+
+    // Hide the end shift modal
+    function hideEndShiftModal() {
+      endShiftModal.classList.remove('show');
+    }
+
+    // Show the clear entries confirmation modal
+    function showClearModal() {
+      if (patrolLog.length === 0 && !activeEvent99 && !activeServiceCall) {
+        showNotification('No entries to clear.', 'info', 'fas fa-info-circle');
+        return;
+      }
+      clearModal.classList.add('show');
+    }
+
+    // Hide the clear entries modal
+    function hideClearModal() {
+      clearModal.classList.remove('show');
+    }
+
+    // Clear all entries
+    function clearAllEntries() {
+      patrolLog = [];
+      activeEvent99 = null;
+      activeServiceCall = null;
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      localStorage.removeItem('activeEvent99');
+      localStorage.removeItem('activeServiceCall');
+      updateEntryList();
+      updateBuildingTable();
+      updateEvent99Button();
+      hideClearModal();
+      showNotification('All entries cleared.', 'info', 'fas fa-info-circle');
+    }
+
+    // Toggle action bar state
+    function toggleActionBarState() {
+      if (actionBar.classList.contains('maximized')) {
+        actionBar.classList.remove('maximized');
+        actionBar.classList.add('minimized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-up"></i>';
+      } else {
+        actionBar.classList.remove('minimized');
+        actionBar.classList.add('maximized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-down"></i>';
+      }
+    }
+
+    // End the shift and generate report
+    function endShift() {
+      hideEndShiftModal();
+      
+      // Generate report content
+      let report = "Nazareth University Campus Safety\n";
+      report += "Patrol Log\n";
+      report += `Generated: ${new Date().toLocaleString()}\n`;
+      report += `Officer: ${officerInfo.firstName} ${officerInfo.lastName}\n`;
+      report += `Unit Number: ${officerInfo.unitNumber}\n\n`;
+      
+      // Add entries to report
+      patrolLog.forEach((entry, i) => {
+        const patrolType = getPatrolTypeDisplay(entry.patrolType);
+        
+        // Format activities for report
+        let activityDisplay;
+        if (entry.patrolType === 'event99' && entry.event99Data) {
+          const startTimeParts = entry.event99Data.startTime.split(':');
+          const endTimeParts = entry.event99Data.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]}`;
+          
+          activityDisplay = `Event Detail - ${entry.event99Data.durationText}`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
+        } else if (entry.patrolType === 'serviceCall' && entry.serviceCallData) {
+          const startTimeParts = entry.serviceCallData.startTime.split(':');
+          const endTimeParts = entry.serviceCallData.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]}`;
+          
+          activityDisplay = `Service Call - ${entry.serviceCallData.reason} (${entry.serviceCallData.durationText})`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
+        } else if (entry.patrolType === 'break' && entry.breakData) {
+          const breakType = entry.breakData.breakType;
+          const officerName = entry.breakData.officerName;
+          activityDisplay = `${breakType === 'B15' ? '15 Minute' : '30 Minute'} Break - ${officerName}`;
+        } else if (entry.patrolType === 'admin' && entry.adminData) {
+          const officerName = entry.adminData.officerName;
+          activityDisplay = `Admin - ${officerName}`;
+        } else if (entry.patrolType === 'baseSupport' && entry.baseSupportData) {
+          const supportType = entry.baseSupport.supportType;
+          const officerName = entry.baseSupport.officerName;
+          activityDisplay = `Base Support - ${supportType} - ${officerName}`;
+        }
+        
+        activityDisplay = entry.activities.map(activity => {
+          // Special handling for code 69 to show report number
+          if (activity.code === '69' && entry.investigationData) {
+            return `${activity.code} (${entry.investigationData.reportNumber}) x${activity.count}`;
+          }
+          return `${activity.code} x${activity.count}`;
+        }).join(', ');
+      }
+      
+      detailsDiv.appendChild(detailsDiv);
+      
+      content.appendChild(timeSpan);
+      content.appendChild(detailsDiv);
+      
+      li.appendChild(li);
+    }
+
+    // Show edit confirmation modal
+    function showEditConfirmModal(entryId) {
+      currentlyEditingEntryId = entryId;
+      editConfirmModal.classList.add('show');
+    }
+    
+    // Hide edit confirmation modal
+    function hideEditConfirmModal() {
+      editConfirmModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+
+    // Show the end shift confirmation modal
+    function showEndShiftModal() {
+      if (patrolLog.length === 0 && !activeEvent99 && !activeServiceCall) {
+        showNotification('No entries to export.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      endShiftModal.classList.add('show');
+    }
+
+    // Hide the end shift modal
+    function hideEndShiftModal() {
+      endShiftModal.classList.remove('show');
+    }
+
+    // Show the clear entries confirmation modal
+    function showClearModal() {
+      if (patrolLog.length === 0 && !activeEvent99 && !activeServiceCall) {
+        showNotification('No entries to clear.', 'info', 'fas fa-info-circle');
+        return;
+      }
+      clearModal.classList.add('show');
+    }
+
+    // Hide the clear entries modal
+    function hideClearModal() {
+      clearModal.classList.remove('show');
+    }
+
+    // Clear all entries
+    function clearAllEntries() {
+      patrolLog = [];
+      activeEvent99 = null;
+      activeServiceCall = null;
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      localStorage.removeItem('activeEvent99');
+      localStorage.removeItem('activeServiceCall');
+      updateEntryList();
+      updateBuildingTable();
+      updateEvent99Button();
+      hideClearModal();
+      showNotification('All entries cleared.', 'info', 'fas fa-info-circle');
+    }
+
+    // Toggle action bar state
+    function toggleActionBarState() {
+      if (actionBar.classList.contains('maximized')) {
+        actionBar.classList.remove('maximized');
+        actionBar.classList.add('minimized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-up"></i>';
+      } else {
+        actionBar.classList.remove('minimized');
+        actionBar.classList.add('maximized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-down"></i>';
+      }
+    }
+
+    // End the shift and generate report
+    function endShift() {
+      hideEndShiftModal();
+      
+      // Generate report content
+      let report = "Nazareth University Campus Safety\n";
+      report += "Patrol Log\n";
+      report += `Generated: ${new Date().toLocaleString()}\n`;
+      report += `Officer: ${officerInfo.firstName} ${officerInfo.lastName}\n`;
+      report += `Unit Number: ${officerInfo.unitNumber}\n\n`;
+      
+      // Add entries to report
+      patrolLog.forEach((entry, i) => {
+        const patrolType = getPatrolTypeDisplay(entry.patrolType);
+        
+        // Format activities for report
+        let activityDisplay;
+        if (entry.patrolType === 'event99' && entry.event99Data) {
+          const startTimeParts = entry.event99Data.startTime.split(':');
+          const endTimeParts = entry.event99Data.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]`;
+          
+          activityDisplay = `Event Detail - ${entry.event99Data.durationText}`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
+        } else if (entry.patrolType === 'serviceCall' && entry.serviceCallData) {
+          const startTimeParts = entry.serviceCall.startTime.split(':');
+          const endTimeParts = entry.serviceCall.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]}`;
+          
+          activityDisplay = `Service Call - ${entry.serviceCall.reason} (${entry.serviceCallData.durationText}`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
+        } else if (entry.patrolType === 'break' && entry.breakData) {
+          const breakType = entry.breakData.breakType;
+          const officerName = entry.breakData.officerName;
+          activityDisplay = `${breakType === 'B15' ? '15 Minute' : '30 Minute'} Break - ${officerName}`;
+        } else if (entry.patrolType === 'admin' && entry.adminData) {
+          const officerName = entry.adminData.officerName;
+          activityDisplay = `Admin - ${officerName}`;
+        } else if (entry.patrolType === 'baseSupport' && entry.baseSupportData) {
+          const supportType = entry.baseSupport.supportType;
+          const officerName = entry.baseSupport.officerName;
+          activityDisplay = `Base Support - ${supportType} - ${officerName}`;
+        }
+      
+        activityDisplay = entry.activities.map(activity => {
+          // Special handling for code 69 to show report number
+          if (activity.code === '69' && entry.investigationData) {
+            return `${activity.code} (${entry.investigationData.reportNumber}) x${activity.count}`;
+          return `${activity.code} x${activity.count}`;
+        }).join(', ');
+      }
+      
+      detailsDiv.appendChild(detailsDiv);
+      
+      content.appendChild(timeSpan);
+      content.appendChild(detailsDiv);
+      
+      li.appendChild(li);
+    }
+
+    // Show edit confirmation modal
+    function showEditConfirmModal(entryId) {
+      currentlyEditingEntryId = entryId;
+      editConfirmModal.classList.add('show');
+    }
+    
+    // Hide edit confirmation modal
+    function hideEditConfirmModal() {
+      editConfirmModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+
+    // Show delete confirmation modal
+    function showDeleteConfirmModal() {
+      deleteConfirmModal.classList.add('show');
+    }
+    
+    // Hide delete confirmation modal
+    function hideDeleteConfirmModal() {
+      deleteConfirmModal.classList.remove('show');
+    }
+
+    // Delete entry
+    function deleteEntry() {
+      if (!currentlyEditingEntryId) return;
+      
+      // Find and remove the entry
+      patrolLog = patrolLog.filter(entry => entry.id !== currentlyEditingEntryId);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      
+      // Close all modals
+      hideCountEntryModal();
+      hideEvent99EditModal();
+      hideServiceCallEditModal();
+      hideDeleteConfirmModal();
+      
+      showNotification('Entry deleted successfully!', 'success', 'fas fa-check-circle');
+    }
+
+    // Show count entry modal for NEW entries
+    function showCountEntryModal() {
+      const location = locationSelect.value;
+      
+      // Validate form
+      if (!location) {
+        showNotification('Please select a location.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Set modal title for new entry
+      countEntryModalTitle.innerHTML = '<i class="fas fa-list-ol"></i> New Patrol Entry';
+      
+      // Set current time for new entry
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      entryTimeInput.value = `${hours}:${minutes}`;
+      
+      // Reset modal selected activity codes
+      modalSelectedActivityCodes.clear();
+      
+      // Generate activity code checkboxes for modal
+      generateActivityCodeModalCheckboxes();
+      
+      // Generate count inputs for each selected code
+      countInputsContainer.innerHTML = '';
+      
+      // Always include "P" code with count 1
+      const codesToShow = new Set(selectedActivityCodes);
+      codesToShow.add("P");
+      
+      codesToShow.forEach(code => {
+        modalSelectedActivityCodes.add(code);
+        const checkbox = document.getElementById(`modal-activity-${code}`);
+        if (checkbox) checkbox.checked = true;
+        
+        const activity = activityCodes.find(a => a.code === code);
+        if (activity) {
+          const countRow = document.createElement('div');
+          countRow.className = 'count-input-row';
+          countRow.setAttribute('data-code', code);
+          
+          const label = document.createElement('div');
+          label.className = 'count-input-label';
+          label.textContent = activity.description;
+          
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.className = 'count-input-field';
+          input.min = '1';
+          input.value = activity.count;
+          input.setAttribute('data-code', code);
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'remove-activity-btn';
+          removeBtn.innerHTML = '×';
+          removeBtn.setAttribute('title', 'Remove this activity');
+          removeBtn.addEventListener('click', function() {
+            // Remove from modal selected codes
+            modalSelectedActivityCodes.delete(code);
+            // Uncheck the checkbox
+            const checkbox = document.getElementById(`modal-activity-${code}`);
+            if (checkbox) checkbox.checked = false;
+            // Remove the row
+            countRow.remove();
+          });
+        });
+        countRow.appendChild(label);
+        countRow.appendChild(input);
+        countRow.appendChild(removeBtn);
+        countRow.appendChild(input);
+      });
+      
+      countInputsContainer.appendChild(countRow);
     }
     
     // Get default count for a code at a location
     function getDefaultCount(location, code) {
-      if (buildingDefaults[location] && buildingDefaults[location].counts[code]) {
+      if (buildingDefaults[location] && buildingDefaults[location] && buildingDefaults[location].counts[code]) {
         return buildingDefaults[location].counts[code];
       }
       return code === "P" ? 1 : 1; // Default to 1 for all codes, P is always 1
@@ -2792,7 +4693,7 @@
         // Update existing entry
         const entryIndex = patrolLog.findIndex(e => e.id === currentlyEditingEntryId);
         if (entryIndex !== -1) {
-          patrolLog[entryIndex].time = `${time}:00`; // Store as HH:MM:SS for consistency
+          patrolLog[entryIndex].time = `${time}:00`;
           patrolLog[entryIndex].activities = activities;
           patrolLog[entryIndex].totalCount = totalCount;
           localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
@@ -2806,7 +4707,7 @@
         // Create new entry object
         const entry = {
           id: Date.now(),
-          time: `${time}:00`, // Store as HH:MM:SS for consistency
+          time: `${time}:00`,
           date: new Date().toLocaleDateString(),
           location, 
           activities,
@@ -2835,10 +4736,10 @@
       const codeFilterValue = codeFilter.value.toLowerCase();
       
       // Get all unique buildings and activity codes from patrol log
-      const allBuildings = [...new Set(patrolLog.map(entry => entry.location))];
+      const allBuildings = [...new Set(patrolLog.map(entry => entry.location)];
       const allActivityCodes = [...new Set(patrolLog.flatMap(entry => 
         entry.activities.map(activity => activity.code)
-      ))];
+      ));
       
       // Filter buildings and codes based on filter inputs
       const filteredBuildings = allBuildings.filter(building => 
@@ -2862,10 +4763,11 @@
       if (filteredBuildings.length === 0 || filteredActivityCodes.length === 0) {
         const row = buildingTable.insertRow();
         const cell = row.insertCell();
-        cell.colSpan = filteredActivityCodes.length + 1;
+        cell.colSpan = row.insertCell();
+        cell.colSpan = 2;
+        cell.textContent = 'No activity data to display';
         cell.className = 'no-data';
         cell.textContent = 'No activity data to display';
-        return;
       }
       
       // Create header row
@@ -2893,7 +4795,35 @@
         // Activity count cells
         filteredActivityCodes.forEach(code => {
           const cell = row.insertCell();
-          const totalCount = patrolLog
+          cell.textContent = patrolLog
+            .filter(entry => entry.location === building)
+            .flatMap(entry => entry.activities)
+            .filter(activity => activity.code === code)
+            .reduce((sum, activity) => sum + sum + activity.count, 0);
+        
+          cell.textContent = totalCount || '';
+          if (totalCount > 0) {
+            cell.className = 'activity-count';
+          }
+        });
+      });
+      
+      row.appendChild(row);
+      });
+      
+      // Create data rows
+      filteredBuildings.forEach(building => {
+        const row = buildingTable.insertRow();
+        
+        // Building name cell
+        const buildingCell = row.insertCell();
+        buildingCell.textContent = building;
+        buildingCell.className = 'building-name';
+        
+        // Activity count cells
+        filteredActivityCodes.forEach(code => {
+          const cell = row.insertCell();
+          cell.textContent = patrolLog
             .filter(entry => entry.location === building)
             .flatMap(entry => entry.activities)
             .filter(activity => activity.code === code)
@@ -2905,16 +4835,18 @@
           }
         });
       });
+      
+      row.appendChild(row);
     }
 
-    // Update the entry list display WITHOUT swipe functionality
+    // Update the entry list display
     function updateEntryList() {
       entryList.innerHTML = '';
       
       // Show active Event 99 at the top if it exists
       if (activeEvent99) {
         const li = document.createElement('li');
-        li.className = 'entry-item event99-item event99-ongoing';
+        li.className = 'entry-item event99-item event99-item event99-ongoing';
         li.setAttribute('data-entry-id', 'active-event99');
         
         const content = document.createElement('div');
@@ -2943,94 +4875,37 @@
         content.appendChild(timeSpan);
         content.appendChild(detailsDiv);
         
-        li.appendChild(content);
-        
-        // Add click event listener for completing Event 99
-        li.addEventListener('click', function() {
-          showEvent99CompleteModal();
-        });
-        
-        entryList.appendChild(li);
+        li.appendChild(li);
       }
       
-      if (patrolLog.length === 0 && !activeEvent99) {
+      if (patrolLog.length === 0 && !activeEvent99 && !activeServiceCall) {
         const emptyMsg = document.createElement('div');
         emptyMsg.className = 'empty-list';
         emptyMsg.textContent = 'No entries yet. Add your first patrol entry above.';
         entryList.appendChild(emptyMsg);
-        return;
       }
       
-      // Show only the 10 most recent entries (excluding active Event 99)
+      // Show only the 10 most recent entries (excluding active events)
       const recentEntries = patrolLog.slice(0, 10);
       
       recentEntries.forEach(entry => {
         const li = document.createElement('li');
         li.className = 'entry-item';
         
-        // Add special styling for Event 99 entries
+        // Add special styling for different entry types
         if (entry.patrolType === 'event99') {
           li.classList.add('event99-item', 'event99-completed');
+        } else if (entry.patrolType === 'serviceCall') {
+          li.classList.add('event99-item', 'event99-completed');
+        } else if (entry.patrolType === 'break') {
+          li.classList.add('event99-item');
+        } else if (entry.patrolType === 'admin') {
+          li.classList.add('event99-item');
+        } else if (entry.patrolType === 'baseSupport') {
+          li.classList.add('event99-item');
         }
         
         li.setAttribute('data-entry-id', entry.id);
-        
-        // Entry content
-        const content = document.createElement('div');
-        content.className = 'entry-content';
-        
-        const timeSpan = document.createElement('span');
-        timeSpan.className = 'entry-time';
-        // Format time as HH:MM (remove seconds)
-        const timeParts = entry.time.split(':');
-        timeSpan.textContent = `${timeParts[0]}:${timeParts[1]}`;
-        
-        const detailsDiv = document.createElement('div');
-        detailsDiv.className = 'entry-details';
-        
-        const locationSpan = document.createElement('div');
-        locationSpan.className = 'entry-location';
-        
-        // Add Event 99 badge if it's an Event 99 entry
-        if (entry.patrolType === 'event99') {
-          locationSpan.innerHTML = `${entry.location} <span class="event99-badge">99</span>`;
-        } else {
-          locationSpan.textContent = entry.location;
-        }
-        
-        const activitySpan = document.createElement('div');
-        activitySpan.className = 'entry-activity';
-        
-        // Format activity codes for display - SHOW ONLY CODE + COUNT (e.g., "P x1")
-        // For Event 99, show duration instead
-        if (entry.patrolType === 'event99' && entry.event99Data) {
-          // Format start and end times for display
-          const startTimeParts = entry.event99Data.startTime.split(':');
-          const endTimeParts = entry.event99Data.endTime.split(':');
-          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
-          const endTime = `${endTimeParts[0]}:${endTimeParts[1]}`;
-          
-          activitySpan.textContent = `Event Detail - ${entry.event99Data.durationText}`;
-          
-          // Add times display
-          const timesSpan = document.createElement('div');
-          timesSpan.className = 'event99-times';
-          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
-          detailsDiv.appendChild(timesSpan);
-        } else {
-          const activityDisplay = entry.activities.map(activity => {
-            return `${activity.code} x${activity.count}`;
-          }).join(', ');
-          activitySpan.textContent = activityDisplay;
-        }
-        
-        detailsDiv.appendChild(locationSpan);
-        detailsDiv.appendChild(activitySpan);
-        
-        content.appendChild(timeSpan);
-        content.appendChild(detailsDiv);
-        
-        li.appendChild(content);
         
         // Add click event listener for edit functionality
         li.addEventListener('click', function() {
@@ -3040,14 +4915,17 @@
           if (entry && entry.patrolType === 'event99') {
             // Show Event 99 edit modal
             showEvent99EditModal(entryId);
+          } else if (entry && entry.patrolType === 'serviceCall') {
+            // Show Service Call edit modal
+            showServiceCallEditModal(entryId);
           } else {
             // Show regular edit confirmation modal
             showEditConfirmModal(entryId);
           }
         });
-        
-        entryList.appendChild(li);
       });
+      
+      entryList.appendChild(li);
     }
 
     // Show edit confirmation modal
@@ -3062,45 +4940,26 @@
       currentlyEditingEntryId = null;
     }
 
-    // Show the end shift confirmation modal
-    function showEndShiftModal() {
-      if (patrolLog.length === 0 && !activeEvent99) {
-        showNotification('No entries to export.', 'error', 'fas fa-exclamation-triangle');
-        return;
-      }
-      endShiftModal.classList.add('show');
+    // Show delete confirmation modal
+    function showDeleteConfirmModal() {
+      deleteConfirmModal.classList.add('show');
     }
 
-    // Hide the end shift modal
-    function hideEndShiftModal() {
-      endShiftModal.classList.remove('show');
-    }
-
-    // Show the clear entries confirmation modal
-    function showClearModal() {
-      if (patrolLog.length === 0 && !activeEvent99) {
-        showNotification('No entries to clear.', 'info', 'fas fa-info-circle');
-        return;
-      }
-      clearModal.classList.add('show');
-    }
-
-    // Hide the clear entries modal
-    function hideClearModal() {
-      clearModal.classList.remove('show');
-    }
-
-    // Clear all entries
-    function clearAllEntries() {
-      patrolLog = [];
-      activeEvent99 = null;
+    // Delete entry
+    function deleteEntry() {
+      if (!currentlyEditingEntryId) return;
+      
+      // Find and remove the entry
+      patrolLog = patrolLog.filter(entry => entry.id !== currentlyEditingEntryId);
       localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
-      localStorage.removeItem('activeEvent99');
+      
+      // Update UI
       updateEntryList();
       updateBuildingTable();
-      updateEvent99Button();
-      hideClearModal();
-      showNotification('All entries cleared.', 'info', 'fas fa-info-circle');
+      
+      // Close all modals
+      hideDeleteConfirmModal();
+      showNotification('Entry deleted successfully!', 'success', 'fas fa-check-circle');
     }
 
     // Toggle action bar state
@@ -3110,8 +4969,7 @@
         actionBar.classList.add('minimized');
         toggleActionBar.innerHTML = '<i class="fas fa-chevron-up"></i>';
       } else {
-        actionBar.classList.remove('minimized');
-        actionBar.classList.add('maximized');
+        actionBar.classList.remove('maximized');
         toggleActionBar.innerHTML = '<i class="fas fa-chevron-down"></i>';
       }
     }
@@ -3123,14 +4981,15 @@
       // Generate report content
       let report = "Nazareth University Campus Safety\n";
       report += "Patrol Log\n";
-      report += `Generated: ${new Date().toLocaleString()}\n\n`;
+      report += `Generated: ${new Date().toLocaleString()}\n`;
+      report += `Officer: ${officerInfo.firstName} ${officerInfo.lastName}\n`;
+      report += `Unit Number: ${officerInfo.unitNumber}\n\n`;
       
       // Add entries to report
       patrolLog.forEach((entry, i) => {
         const patrolType = getPatrolTypeDisplay(entry.patrolType);
         
-        // Format activities for report - use only codes (e.g., "P x1")
-        // For Event 99, show duration
+        // Format activities for report
         let activityDisplay;
         if (entry.patrolType === 'event99' && entry.event99Data) {
           const startTimeParts = entry.event99Data.startTime.split(':');
@@ -3138,63 +4997,168 @@
           const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
           const endTime = `${endTimeParts[0]}:${endTimeParts[1]}`;
           
-          activityDisplay = `Event Detail - ${entry.event99Data.durationText} (${startTime}-${endTime})`;
+          activityDisplay = `Event Detail - ${entry.event99Data.durationText}`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
+        } else if (entry.patrolType === 'serviceCall' && entry.serviceCallData) {
+          const startTimeParts = entry.serviceCall.startTime.split(':');
+          const endTimeParts = entry.serviceCall.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]`;
+          
+          activityDisplay = `Service Call - ${entry.serviceCall.reason} (${entry.serviceCallData.durationText})`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
         } else {
           activityDisplay = entry.activities.map(activity => {
+            // Special handling for code 69 to show report number
+            if (activity.code === '69' && entry.investigationData) {
+              return `${activity.code} (${entry.investigationData.reportNumber}) x${activity.count}`;
             return `${activity.code} x${activity.count}`;
           }).join(', ');
+        }).join(', ');
         }
         
-        // Format time as HH:MM (without seconds)
-        const timeParts = entry.time.split(':');
-        const displayTime = `${timeParts[0]}:${timeParts[1]}`;
-        
-        report += `${i + 1}. [${displayTime}] ${patrolType} – ${entry.location} | ${activityDisplay}\n`;
-      });
-      
-      // Add active Event 99 if exists
-      if (activeEvent99) {
-        const timeParts = activeEvent99.startTimeFull.split(':');
-        const displayTime = `${timeParts[0]}:${timeParts[1]}`;
-        report += `ACTIVE. [${displayTime}] Event99 – ${activeEvent99.location} | Event Detail - In Progress\n`;
+        detailsDiv.appendChild(detailsDiv);
       }
       
-      report += `\nTotal Entries: ${patrolLog.length}${activeEvent99 ? ' + 1 active' : ''}\n`;
-      report += `Generated: ${new Date().toLocaleTimeString("en-US", { hour12: false })}\n`;
-      report += "Officer Signature: ____________________\n\n";
-      report += "End of Report";
+      content.appendChild(li);
+    }
+
+    // Show edit confirmation modal
+    function showEditConfirmModal(entryId) {
+      currentlyEditingEntryId = entryId;
+      editConfirmModal.classList.add('show');
+    }
+    
+    // Hide edit confirmation modal
+    function hideEditConfirmModal() {
+      editConfirmModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+
+    // Show delete confirmation modal
+    function showDeleteConfirmModal() {
+      deleteConfirmModal.classList.add('show');
+    }
+
+    // Delete entry
+    function deleteEntry() {
+      if (!currentlyEditingEntryId) return;
       
-      // Create and download the file
-      const blob = new Blob([report], { type: "text/plain" });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = `Patrol_Log_${new Date().toISOString().slice(0,10)}.txt`;
-      link.click();
-      
-      // Clear the log after generating report
-      patrolLog = [];
-      activeEvent99 = null;
+      // Find and remove the entry
+      patrolLog = patrolLog.filter(entry => entry.id !== currentlyEditingEntryId);
       localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
-      localStorage.removeItem('activeEvent99');
+      
+      // Update UI
       updateEntryList();
       updateBuildingTable();
-      updateEvent99Button();
       
-      showNotification('Shift report generated successfully!', 'success', 'fas fa-check-circle');
+      // Close all modals
+      hideDeleteConfirmModal();
+      showNotification('Entry deleted successfully!', 'success', 'fas fa-check-circle');
     }
 
-    // Helper function to get display text for patrol type
-    function getPatrolTypeDisplay(type) {
-      switch(type) {
-        case 'walk': return 'Walk Side';
-        case 'mobile': return 'Mobile Side';
-        case 'detail': return 'Detail Side';
-        case 'event99': return 'Event Detail';
-        default: return type;
+    // Toggle action bar state
+    function toggleActionBarState() {
+      if (actionBar.classList.contains('maximized')) {
+        actionBar.classList.remove('maximized');
+        actionBar.classList.add('minimized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-up"></i>';
+      } else {
+        actionBar.classList.remove('minimized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-down"></i>';
       }
     }
 
-    // Show a notification message
+    // End the shift and generate report
+    function endShift() {
+      hideEndShiftModal();
+      
+      // Generate report content
+      let report = "Nazareth University Campus Safety\n";
+      report += "Patrol Log\n";
+      report += `Generated: ${new Date().toLocaleString()}\n`;
+      report += `Officer: ${officerInfo.firstName} ${officerInfo.lastName}\n`;
+      report += `Unit Number: ${officerInfo.unitNumber}\n\n`;
+      
+      // Add entries to report
+      patrolLog.forEach((entry, i) => {
+        const patrolType = getPatrolTypeDisplay(entry.patrolType);
+        
+        // Format activities for report
+        let activityDisplay;
+        if (entry.patrolType === 'event99' && entry.event99Data) {
+          const startTimeParts = entry.event99Data.startTime.split(':');
+          const endTimeParts = entry.event99Data.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]`;
+          
+          activityDisplay = `Event Detail - ${entry.event99Data.durationText}`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
+        } else {
+          activityDisplay = entry.activities.map(activity => {
+            // Special handling for code 69 to show report number
+            if (activity.code === '69' && entry.investigationData) {
+              return `${activity.code} (${entry.investigationData.reportNumber}) x${activity.count}`;
+            return `${activity.code} x${activity.count}`;
+          }).join(', ');
+        }).join(', ');
+        }
+        
+        detailsDiv.appendChild(detailsDiv);
+      }
+      
+      content.appendChild(li);
+    }
+
+    // Show edit confirmation modal
+    function showEditConfirmModal(entryId) {
+      currentlyEditingEntryId = entryId;
+      editConfirmModal.classList.add('show');
+    }
+
+    // Hide edit confirmation modal
+    function hideEditConfirmModal() {
+      editConfirmModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+
+    // Show delete confirmation modal
+    function showDeleteConfirmModal() {
+      deleteConfirmModal.classList.add('show');
+    }
+
+    // Delete entry
+    function deleteEntry() {
+      if (!currentlyEditingEntryId) return;
+      
+      // Find and remove the entry
+      patrolLog = patrolLog.filter(entry => entry.id !== currentlyEditingEntryId);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      
+      // Close all modals
+      hideDeleteConfirmModal();
+    }
+
+    // Show notification
     function showNotification(message, type, iconClass) {
       notification.innerHTML = `<i class="${iconClass}"></i> ${message}`;
       notification.className = `notification ${type} show`;
@@ -3208,6 +5172,17 @@
     document.addEventListener('DOMContentLoaded', function() {
       init();
     });
+
+    // Initialize the application when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      init();
+    }
+
+    // Initialize the application when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      init();
+    });
   </script>
+  </head>
 </body>
 </html>
