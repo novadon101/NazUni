@@ -1,0 +1,3213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nazareth University Campus Safety | Patrol Log</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --purple: #3B2A6F;
+      --gold: #C99700;
+      --light-purple: #C7B6E1;
+      --bg: #F5F4F9;
+      --white: #ffffff;
+      --text: #1f1f1f;
+      --success: #4CAF50;
+      --warning: #FF9800;
+      --error: #F44336;
+      --light-gray: #f5f5f5;
+      --medium-gray: #e0e0e0;
+      --dark-gray: #555;
+      --card-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      --smooth-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      --highlight: #fff9c4;
+      --pastel-purple: #E6E0F8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    body {
+      background-color: var(--bg);
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: var(--text);
+      line-height: 1.5;
+      padding-bottom: 100px;
+    }
+
+    /* Header Styles */
+    header {
+      background-color: var(--purple);
+      color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 4px solid var(--gold);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--card-shadow);
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .logo {
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 6px;
+    }
+
+    .header-text {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .mascot {
+      height: 44px;
+      border-radius: 50%;
+      border: 2px solid var(--gold);
+      background: var(--light-purple);
+      padding: 3px;
+    }
+
+    /* Main Content Styles */
+    main {
+      padding: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      color: var(--purple);
+      font-size: 1.2rem;
+      border-left: 5px solid var(--gold);
+      padding-left: 10px;
+      margin: 20px 0 15px;
+    }
+
+    /* Resources Section - NOW AT TOP */
+    .resources-section {
+      margin: 25px 0;
+    }
+
+    .resource-cards {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .resource-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--smooth-shadow);
+      overflow: hidden;
+      border: 1px solid var(--medium-gray);
+    }
+
+    .resource-header {
+      padding: 14px 16px;
+      background-color: var(--light-purple);
+      color: var(--purple);
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .resource-header:hover {
+      background-color: var(--pastel-purple);
+    }
+
+    .resource-header i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    .resource-toggle {
+      color: var(--purple);
+      transition: transform 0.3s;
+    }
+
+    .resource-card.active .resource-toggle {
+      transform: rotate(180deg);
+    }
+
+    .resource-content {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .resource-card.active .resource-content {
+      padding: 16px;
+      max-height: 500px;
+    }
+
+    .code-dictionary-list {
+      list-style: none;
+    }
+
+    .code-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .code-item:last-child {
+      border-bottom: none;
+    }
+
+    .code-value {
+      font-weight: 600;
+      color: var(--purple);
+      display: inline-block;
+      width: 50px;
+    }
+
+    .resource-links {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .resource-link {
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      background-color: var(--light-gray);
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text);
+      transition: all 0.2s;
+    }
+
+    .resource-link:hover {
+      background-color: var(--light-purple);
+      transform: translateY(-2px);
+      box-shadow: var(--smooth-shadow);
+    }
+
+    .resource-link i {
+      margin-right: 10px;
+      color: var(--purple);
+      font-size: 1.2rem;
+    }
+
+    .resource-link-text {
+      flex: 1;
+    }
+
+    .resource-link-title {
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .resource-link-desc {
+      font-size: 0.85rem;
+      color: var(--dark-gray);
+    }
+
+    /* Patrol Type Section - NOW WITH EXPAND/COLLAPSE */
+    .patrol-type-card {
+      background: var(--white);
+      border-radius: 12px;
+      box-shadow: var(--smooth-shadow);
+      overflow: hidden;
+      border: 1px solid var(--medium-gray);
+      margin-bottom: 25px;
+    }
+
+    .patrol-type-header {
+      padding: 14px 16px;
+      background-color: var(--light-purple);
+      color: var(--purple);
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .patrol-type-header:hover {
+      background-color: var(--pastel-purple);
+    }
+
+    .patrol-type-header i {
+      margin-right: 10px;
+      font-size: 1.1rem;
+    }
+
+    .patrol-type-toggle {
+      color: var(--purple);
+      transition: transform 0.3s;
+    }
+
+    .patrol-type-card.active .patrol-type-toggle {
+      transform: rotate(180deg);
+    }
+
+    .patrol-type-content {
+      padding: 0;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease, padding 0.3s ease;
+    }
+
+    .patrol-type-card.active .patrol-type-content {
+      padding: 16px;
+      max-height: 500px;
+    }
+
+    /* Patrol Type Buttons */
+    .patrol-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin: 15px 0;
+      gap: 8px;
+    }
+
+    .patrol-btn {
+      flex: 1;
+      padding: 14px 8px;
+      font-size: 1rem;
+      border: 2px solid var(--medium-gray);
+      border-radius: 10px;
+      font-weight: 600;
+      color: var(--text);
+      background-color: var(--white);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      min-height: 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--smooth-shadow);
+    }
+
+    .patrol-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    .patrol-btn.active {
+      background-color: var(--purple);
+      color: var(--white);
+      border-color: var(--purple);
+    }
+
+    .patrol-icon {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    /* Event 99 Button */
+    .event99-btn {
+      width: 100%;
+      padding: 16px;
+      font-size: 1.1rem;
+      border: 2px solid var(--warning);
+      border-radius: 10px;
+      font-weight: 700;
+      color: var(--text);
+      background-color: var(--white);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      margin: 10px 0 20px;
+      box-shadow: var(--smooth-shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .event99-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+      background-color: var(--warning);
+      color: var(--white);
+    }
+
+    .event99-btn.active {
+      background-color: var(--warning);
+      color: var(--white);
+      border-color: var(--warning);
+    }
+
+    .event99-icon {
+      font-size: 1.4rem;
+      margin-bottom: 8px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .searchable-select {
+      position: relative;
+    }
+
+    .searchable-select input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+      background-color: var(--white);
+      transition: 0.2s;
+      box-shadow: var(--smooth-shadow);
+    }
+
+    .searchable-select input:focus {
+      border-color: var(--purple);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 42, 111, 0.2);
+    }
+
+    .searchable-select .dropdown-options {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid var(--medium-gray);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 10;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      display: none;
+    }
+
+    .searchable-select.active .dropdown-options {
+      display: block;
+    }
+
+    .searchable-select .option {
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .searchable-select .option:hover {
+      background-color: var(--light-purple);
+    }
+
+    .searchable-select .option.selected {
+      background-color: var(--purple);
+      color: white;
+    }
+
+    /* Entry List - No Swipe Functionality */
+    .entry-list {
+      margin: 25px 0;
+      border: 1px solid var(--medium-gray);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--smooth-shadow);
+      background: var(--white);
+    }
+
+    .entry-list-header {
+      background-color: var(--purple);
+      color: white;
+      margin: 0;
+      padding: 12px 15px;
+      font-size: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .entry-list-subheader {
+      background-color: var(--pastel-purple);
+      color: var(--purple);
+      margin: 0;
+      padding: 8px 15px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .time-subheader {
+      flex: 0 0 80px;
+      text-align: left;
+    }
+
+    .activity-subheader {
+      flex: 1;
+      text-align: right;
+    }
+
+    .click-instructions {
+      font-size: 0.75rem;
+      opacity: 0.8;
+      margin-top: 5px;
+      text-align: center;
+      padding: 5px 15px;
+      background-color: var(--light-gray);
+    }
+
+    .clear-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 0.8rem;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+
+    .entry-list-content {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .entry-list ul {
+      list-style: none;
+    }
+
+    .entry-item {
+      position: relative;
+      border-bottom: 1px solid var(--medium-gray);
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .entry-item:last-child {
+      border-bottom: none;
+    }
+
+    .entry-item:hover {
+      background-color: var(--light-gray);
+    }
+
+    .entry-content {
+      padding: 12px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      width: 100%;
+      gap: 15px;
+    }
+
+    .entry-time {
+      font-weight: 600;
+      color: var(--purple);
+      white-space: nowrap;
+      flex: 0 0 80px;
+      text-align: left;
+    }
+
+    .entry-details {
+      text-align: right;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .entry-location {
+      font-weight: 600;
+      margin-bottom: 3px;
+      text-align: right;
+    }
+
+    .entry-activity {
+      color: var(--dark-gray);
+      font-size: 0.9rem;
+      text-align: right;
+    }
+
+    .event99-times {
+      font-size: 0.8rem;
+      color: var(--dark-gray);
+      margin-top: 2px;
+    }
+
+    .empty-list {
+      padding: 20px;
+      text-align: center;
+      color: var(--dark-gray);
+      font-style: italic;
+    }
+
+    /* Event 99 Specific Styles */
+    .event99-item {
+      background-color: var(--highlight);
+      border-left: 4px solid var(--warning);
+    }
+
+    .event99-badge {
+      display: inline-block;
+      background-color: var(--warning);
+      color: white;
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      margin-left: 5px;
+    }
+
+    .event99-ongoing {
+      background-color: #e8f5e9;
+      border-left: 4px solid var(--success);
+    }
+
+    .event99-completed {
+      background-color: #e3f2fd;
+      border-left: 4px solid var(--purple);
+    }
+
+    /* Stats Panel - Building Table Only */
+    .stats {
+      background-color: var(--white);
+      padding: 18px;
+      border-radius: 10px;
+      margin-top: 25px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .stats h3 {
+      margin-top: 0;
+      color: var(--purple);
+      margin-bottom: 15px;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .help-btn {
+      background: none;
+      border: none;
+      color: var(--purple);
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    /* Building Activity Table */
+    .building-table-container {
+      margin-top: 20px;
+      overflow-x: auto;
+    }
+
+    .building-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    .building-table th {
+      text-align: center;
+      padding: 10px;
+      background-color: var(--light-purple);
+      color: var(--purple);
+      font-weight: 600;
+      border: 1px solid var(--medium-gray);
+    }
+
+    .building-table td {
+      padding: 10px;
+      border: 1px solid var(--medium-gray);
+      text-align: center;
+    }
+
+    .building-name {
+      text-align: left;
+      font-weight: 600;
+      color: var(--purple);
+      background-color: var(--light-gray);
+    }
+
+    .activity-count {
+      font-weight: 600;
+      color: var(--purple);
+    }
+
+    .no-data {
+      text-align: center;
+      color: var(--dark-gray);
+      font-style: italic;
+      padding: 20px;
+    }
+
+    .table-filters {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .table-filters input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid var(--medium-gray);
+      border-radius: 5px;
+    }
+
+    /* Action Bar - Collapsible */
+    .action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: var(--purple);
+      border-top: 4px solid var(--gold);
+      z-index: 100;
+      box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .action-bar.minimized {
+      height: 50px;
+    }
+
+    .action-bar.maximized {
+      height: auto;
+    }
+
+    .action-bar-toggle {
+      display: flex;
+      justify-content: center;
+      padding: 5px;
+      background-color: var(--purple);
+    }
+
+    .toggle-btn {
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+      font-size: 1.2rem;
+      padding: 5px 10px;
+      border-radius: 5px;
+      transition: background 0.2s;
+    }
+
+    .toggle-btn:hover {
+      background-color: rgba(255,255,255,0.1);
+    }
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-around;
+      padding: 12px 16px;
+      transition: all 0.3s ease;
+    }
+
+    .action-bar.minimized .action-buttons {
+      display: none;
+    }
+
+    .action-btn {
+      flex: 1;
+      margin: 0 8px;
+      padding: 16px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      min-height: 55px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--smooth-shadow);
+    }
+
+    .action-btn i {
+      margin-right: 8px;
+    }
+
+    .save-btn {
+      background-color: var(--gold);
+      color: var(--purple);
+    }
+
+    .end-btn {
+      background-color: var(--light-purple);
+      color: var(--purple);
+    }
+
+    .action-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    }
+
+    .action-btn:active {
+      transform: translateY(0);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      color: var(--dark-gray);
+      font-size: 0.85rem;
+      padding: 25px 10px 100px;
+    }
+
+    /* Notifications */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 20px;
+      border-radius: 10px;
+      color: white;
+      font-weight: 600;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: all 0.3s ease;
+      max-width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+    }
+
+    .notification i {
+      margin-right: 10px;
+      font-size: 1.2rem;
+    }
+
+    .notification.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .notification.success {
+      background-color: var(--success);
+    }
+
+    .notification.error {
+      background-color: var(--error);
+    }
+
+    .notification.info {
+      background-color: var(--purple);
+    }
+
+    /* Modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-content {
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 100%;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-title {
+      color: var(--purple);
+      margin-bottom: 15px;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .modal-title i {
+      margin-right: 10px;
+    }
+
+    .modal-text {
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .time-input-group, .count-input-group {
+      margin: 15px 0;
+    }
+
+    .count-input-row {
+      display: flex;
+      align-items: center;
+      margin: 10px 0;
+      padding: 10px;
+      background: var(--light-gray);
+      border-radius: 8px;
+      position: relative;
+    }
+
+    .count-input-label {
+      flex: 1;
+      font-weight: 600;
+    }
+
+    .count-input-field {
+      width: 80px;
+      padding: 8px;
+      border: 1px solid var(--medium-gray);
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .remove-activity-btn {
+      background: none;
+      border: none;
+      color: var(--error);
+      cursor: pointer;
+      font-size: 1.2rem;
+      margin-left: 10px;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+    }
+
+    .remove-activity-btn:hover {
+      background-color: rgba(244, 67, 54, 0.1);
+    }
+
+    .time-input-group label, .count-input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .time-input-group input, .count-input-group input {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    /* Enhanced time input styling */
+    .time-input-group input:focus {
+      border-color: var(--purple);
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(59, 42, 111, 0.2);
+    }
+
+    .time-input-group label {
+      display: flex;
+      align-items: center;
+    }
+
+    .time-input-group label .edit-icon {
+      margin-left: 8px;
+      color: var(--purple);
+      font-size: 0.9rem;
+    }
+
+    .location-type-group {
+      margin: 15px 0;
+    }
+
+    .location-type-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .location-type-group select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .specific-location-group {
+      margin: 15px 0;
+    }
+
+    .specific-location-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    .specific-location-group select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .code-help-list {
+      list-style: none;
+      margin-top: 15px;
+    }
+
+    .code-help-item {
+      padding: 10px 0;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .code-help-item:last-child {
+      border-bottom: none;
+    }
+
+    .code-help-code {
+      font-weight: 600;
+      color: var(--purple);
+      display: inline-block;
+      width: 50px;
+    }
+
+    .modal-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .modal-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .modal-delete {
+      background-color: var(--error);
+      color: white;
+    }
+
+    .modal-cancel {
+      background-color: var(--medium-gray);
+      color: var(--text);
+    }
+
+    .modal-confirm {
+      background-color: var(--gold);
+      color: var(--purple);
+    }
+
+    .form-link {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      background-color: var(--light-purple);
+      color: var(--purple);
+      text-decoration: none;
+      border-radius: 8px;
+      margin: 15px 0;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .form-link:hover {
+      background-color: var(--purple);
+      color: white;
+    }
+
+    /* Add Activity Code Section in Modal */
+    .add-activity-section {
+      margin: 20px 0;
+      padding: 15px;
+      background-color: var(--light-gray);
+      border-radius: 8px;
+    }
+
+    .add-activity-title {
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--purple);
+      display: flex;
+      align-items: center;
+    }
+
+    .add-activity-title i {
+      margin-right: 8px;
+    }
+
+    .activity-codes-modal-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .activity-code-modal-checkbox {
+      display: none;
+    }
+
+    .activity-code-modal-label {
+      display: block;
+      padding: 8px;
+      border: 2px solid var(--medium-gray);
+      border-radius: 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.8rem;
+      background: var(--white);
+    }
+
+    .activity-code-modal-checkbox:checked + .activity-code-modal-label {
+      background-color: var(--light-purple);
+      border-color: var(--purple);
+      color: var(--purple);
+      font-weight: 600;
+    }
+
+    .activity-code-modal-label:hover {
+      background-color: var(--light-purple);
+      transform: translateY(-1px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 480px) {
+      .patrol-buttons {
+        flex-direction: column;
+      }
+      
+      .patrol-btn {
+        min-width: 100%;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .action-btn {
+        margin: 0;
+      }
+      
+      header {
+        padding: 10px 12px;
+      }
+      
+      .header-text {
+        font-size: 0.8rem;
+      }
+      
+      .activity-codes-modal-grid {
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      }
+      
+      .table-filters {
+        flex-direction: column;
+      }
+      
+      .entry-list-subheader {
+        flex-direction: row;
+        text-align: left;
+      }
+      
+      .activity-subheader {
+        text-align: right;
+        margin-top: 0;
+      }
+      
+      .entry-time {
+        flex: 0 0 60px;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+    }
+
+    @media (min-width: 768px) {
+      main {
+        padding: 25px 30px 100px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo-container">
+      <img src="nazareth_logo.png" alt="Nazareth University Logo" class="logo">
+      <div class="header-text">Campus Safety Patrol Log</div>
+    </div>
+    <img src="swoop_mascot.png" alt="Swoop Mascot" class="mascot">
+  </header>
+
+  <main>
+    <!-- Resources Section - MOVED TO TOP -->
+    <div class="resources-section">
+      <h2 class="section-title">Resources</h2>
+      <div class="resource-cards">
+        <!-- Code Dictionary -->
+        <div class="resource-card active" id="codeDictionaryCard">
+          <div class="resource-header">
+            <div>
+              <i class="fas fa-book"></i>
+              Code Dictionary
+            </div>
+            <i class="fas fa-chevron-down resource-toggle"></i>
+          </div>
+          <div class="resource-content">
+            <!-- Activity Codes Subsection -->
+            <h4 style="color: var(--purple); margin: 15px 0 10px;">Activity Codes</h4>
+            <ul class="code-dictionary-list">
+              <li class="code-item"><span class="code-value">P</span> - Patrolled</li>
+              <li class="code-item"><span class="code-value">61</span> - Personal Assist</li>
+              <li class="code-item"><span class="code-value">61B</span> - TBD</li>
+              <li class="code-item"><span class="code-value">62</span> - Escort</li>
+              <li class="code-item"><span class="code-value">62M</span> - Medical Escort</li>
+              <li class="code-item"><span class="code-value">63</span> - Vehicle Assist</li>
+              <li class="code-item"><span class="code-value">65</span> - Lock Up / Lock Out</li>
+              <li class="code-item"><span class="code-value">65B</span> - Building Open / Close</li>
+              <li class="code-item"><span class="code-value">66</span> - Noise Complaint</li>
+              <li class="code-item"><span class="code-value">67</span> - Door Alarm</li>
+              <li class="code-item"><span class="code-value">68</span> - Delivery / Pickup</li>
+              <li class="code-item"><span class="code-value">69</span> - Investigation / Follow-Up</li>
+              <li class="code-item"><span class="code-value">93</span> - Cooler / Freezer Check</li>
+              <li class="code-item"><span class="code-value">95</span> - Stove / Oven / Grill / Furnace Check</li>
+              <li class="code-item"><span class="code-value">99</span> - Event Detail</li>
+              <li class="code-item"><span class="code-value">100</span> - Special Attention</li>
+            </ul>
+            
+            <!-- Status Codes Subsection -->
+            <h4 style="color: var(--purple); margin: 20px 0 10px;">Status Codes</h4>
+            <ul class="code-dictionary-list">
+              <li class="code-item"><span class="code-value">10-04</span> - Copy</li>
+              <li class="code-item"><span class="code-value">10-05</span> - On Scene</li>
+              <li class="code-item"><span class="code-value">10-08</span> - Scene Clearance</li>
+              <li class="code-item"><span class="code-value">10-09</span> - Repeat Radio Transmission Request</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Maps -->
+        <div class="resource-card" id="mapsCard">
+          <div class="resource-header">
+            <div>
+              <i class="fas fa-map"></i>
+              Maps
+            </div>
+            <i class="fas fa-chevron-down resource-toggle"></i>
+          </div>
+          <div class="resource-content">
+            <div class="resource-links">
+              <a href="https://www2.naz.edu/files/5314/9062/3301/MAD_Map.pdf" target="_blank" class="resource-link">
+                <i class="fas fa-building"></i>
+                <div class="resource-link-text">
+                  <div class="resource-link-title">Campus Buildings Map</div>
+                  <div class="resource-link-desc">PDF map of all campus buildings</div>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+              <a href="https://maps.naz.edu/#lot-j" target="_blank" class="resource-link">
+                <i class="fas fa-map-marked-alt"></i>
+                <div class="resource-link-text">
+                  <div class="resource-link-title">Interactive Campus Map</div>
+                  <div class="resource-link-desc">Digital interactive map with building and parking lot details</div>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+              <a href="https://www2.naz.edu/files/5214/4294/7624/ParkingMap.pdf" target="_blank" class="resource-link">
+                <i class="fas fa-parking"></i>
+                <div class="resource-link-text">
+                  <div class="resource-link-title">Parking Lot Campus Map</div>
+                  <div class="resource-link-desc">PDF map of all campus parking lots</div>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Forms -->
+        <div class="resource-card" id="formsCard">
+          <div class="resource-header">
+            <div>
+              <i class="fas fa-file-alt"></i>
+              Forms
+            </div>
+            <i class="fas fa-chevron-down resource-toggle"></i>
+          </div>
+          <div class="resource-content">
+            <div class="resource-links">
+              <a href="https://docs.google.com/forms/d/e/1FAIpQLSenjNviu1hM7M1M2qjsCxHzaNPxjNSGPJIJYtM6DufyzKRRQQ/viewform" target="_blank" class="resource-link">
+                <i class="fas fa-clipboard-list"></i>
+                <div class="resource-link-text">
+                  <div class="resource-link-title">99 Event Detail Form</div>
+                  <div class="resource-link-desc">Submit Event Detail documentation</div>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Schedule -->
+        <div class="resource-card" id="scheduleCard">
+          <div class="resource-header">
+            <div>
+              <i class="fas fa-calendar-alt"></i>
+              Schedule
+            </div>
+            <i class="fas fa-chevron-down resource-toggle"></i>
+          </div>
+          <div class="resource-content">
+            <div class="resource-links">
+              <a href="https://docs.google.com/spreadsheets/d/1lPrSeGO3QK7JipgSp1QCDwU5GeNvm9SkWfRW_d4BPx4/edit#gid=1246389670" target="_blank" class="resource-link">
+                <i class="fas fa-spreadsheet"></i>
+                <div class="resource-link-text">
+                  <div class="resource-link-title">Patrol Schedule</div>
+                  <div class="resource-link-desc">View current shift schedules</div>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- General Orders -->
+        <div class="resource-card" id="generalOrdersCard">
+          <div class="resource-header">
+            <div>
+              <i class="fas fa-file-contract"></i>
+              General Orders
+            </div>
+            <i class="fas fa-chevron-down resource-toggle"></i>
+          </div>
+          <div class="resource-content">
+            <div class="resource-links">
+              <a href="https://drive.google.com/drive/folders/1d7qmVsfoUcV-wHxeN4-cpBcHw9IJCfHH" target="_blank" class="resource-link">
+                <i class="fas fa-folder-open"></i>
+                <div class="resource-link-text">
+                  <div class="resource-link-title">General Orders Directory</div>
+                  <div class="resource-link-desc">Access department policies and procedures</div>
+                </div>
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Patrol Type Section - NOW WITH EXPAND/COLLAPSE -->
+    <div class="patrol-type-card active" id="patrolTypeCard">
+      <div class="patrol-type-header">
+        <div>
+          <i class="fas fa-walking"></i>
+          Select Patrol Type
+        </div>
+        <i class="fas fa-chevron-down patrol-type-toggle"></i>
+      </div>
+      <div class="patrol-type-content">
+        <div class="patrol-buttons">
+          <button class="patrol-btn" id="detailBtn" onclick="setPatrolType('detail')">
+            <span class="patrol-icon">🅿️</span>
+            <span>DETAIL</span>
+          </button>
+          <button class="patrol-btn" id="mobileBtn" onclick="setPatrolType('mobile')">
+            <span class="patrol-icon">🚗</span>
+            <span>MOBILE</span>
+          </button>
+          <button class="patrol-btn active" id="walkBtn" onclick="setPatrolType('walk')">
+            <span class="patrol-icon">🚶</span>
+            <span>WALK</span>
+          </button>
+          <!-- Code 99 added as a patrol function -->
+          <button class="patrol-btn" id="event99PatrolBtn" onclick="handleEvent99Click()">
+            <span class="patrol-icon">📋</span>
+            <span>99 - EVENT DETAIL</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Event 99 Button removed from here since it's now in the patrol type section -->
+
+    <div class="form-group">
+      <label for="location">Location</label>
+      <div class="searchable-select" id="locationSelect">
+        <input type="text" id="location" placeholder="Type to search locations..." autocomplete="off">
+        <div class="dropdown-options" id="locationOptions"></div>
+      </div>
+    </div>
+
+    <div class="entry-list">
+      <div class="entry-list-header">
+        <span>Patrol Log</span>
+        <button class="clear-btn" id="clearBtn">Clear All</button>
+      </div>
+      <div class="entry-list-subheader">
+        <span class="time-subheader">Time</span>
+        <span class="activity-subheader">Activity</span>
+      </div>
+      <div class="click-instructions">Click an entry to edit</div>
+      <div class="entry-list-content">
+        <ul id="entryList">
+          <!-- Entries will be added here dynamically -->
+        </ul>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="building-summary">
+        <h3>
+          <i class="fas fa-building"></i> Building Activity Summary
+          <button class="help-btn" id="codeHelpBtn">
+            <i class="fas fa-question-circle"></i>
+          </button>
+        </h3>
+        <div class="table-filters">
+          <input type="text" id="buildingFilter" placeholder="Filter buildings...">
+          <input type="text" id="codeFilter" placeholder="Filter codes...">
+        </div>
+        <div class="building-table-container">
+          <table class="building-table" id="buildingTable">
+            <!-- Building table will be generated here dynamically -->
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div class="action-bar maximized" id="actionBar">
+    <div class="action-bar-toggle">
+      <button class="toggle-btn" id="toggleActionBar">
+        <i class="fas fa-chevron-down"></i>
+      </button>
+    </div>
+    <div class="action-buttons">
+      <button class="action-btn save-btn" id="logBtn"><i class="fas fa-save"></i> Log Activity</button>
+      <button class="action-btn end-btn" id="generateBtn"><i class="fas fa-file-export"></i> End Shift</button>
+    </div>
+  </div>
+
+  <footer>
+    © 2025 Nazareth University Campus Safety — Internal Use Only
+    <div style="margin-top: 10px; font-size: 0.7rem; color: #888;">
+      Data is automatically saved locally • Use "Clear All" to reset during testing
+    </div>
+  </footer>
+
+  <div class="notification" id="notification"></div>
+
+  <!-- All modals remain the same as previous version -->
+  <div class="modal" id="endShiftModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-file-export"></i> End Shift</h2>
+      <p class="modal-text">Are you sure you want to end your shift? This will generate a report and clear all current entries.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="modalCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="modalConfirm">End Shift</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="clearModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-trash-alt"></i> Clear All Entries</h2>
+      <p class="modal-text">Are you sure you want to clear all entries? This action cannot be undone.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="clearModalCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="clearModalConfirm">Clear All</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="countEntryModal">
+    <div class="modal-content">
+      <h2 class="modal-title" id="countEntryModalTitle"><i class="fas fa-list-ol"></i> New Patrol Entry</h2>
+      <div class="time-input-group">
+        <label for="entryTime">
+          Time (HH:MM) 
+          <span class="edit-icon" title="Click to edit time"><i class="fas fa-edit"></i></span>
+        </label>
+        <input type="time" id="entryTime" step="60">
+      </div>
+      <p class="modal-text">Enter counts for each activity code:</p>
+      <div id="countInputsContainer">
+        <!-- Count inputs will be generated here dynamically -->
+      </div>
+      
+      <div class="add-activity-section" id="addActivitySection">
+        <div class="add-activity-title">
+          <i class="fas fa-plus-circle"></i> Add More Activity Codes
+        </div>
+        <div class="activity-codes-modal-grid" id="activityCodesModalGrid">
+          <!-- Activity code checkboxes for modal will be generated here -->
+        </div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button class="modal-btn modal-delete" id="countEntryDelete">Delete Entry</button>
+        <div>
+          <button class="modal-btn modal-cancel" id="countEntryCancel">Cancel</button>
+          <button class="modal-btn modal-confirm" id="countEntryConfirm">Save Entry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- All other modals remain unchanged from previous version -->
+  <div class="modal" id="editConfirmModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-edit"></i> Edit Entry</h2>
+      <p class="modal-text">Do you want to edit this entry?</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="editConfirmCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="editConfirmYes">Edit</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="event99LocationModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-map-marker-alt"></i> Event Detail Location</h2>
+      <p class="modal-text">Where is this Event Detail taking place?</p>
+      <div class="location-type-group">
+        <label for="event99LocationType">Location Type</label>
+        <select id="event99LocationType">
+          <option value="">Select location type...</option>
+          <option value="Academic Buildings">Academic Buildings</option>
+          <option value="Residential Buildings">Residential Buildings</option>
+          <option value="Parking Lots">Parking Lots</option>
+          <option value="Roads">Roads</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="specific-location-group" id="event99SpecificLocationGroup">
+        <label for="event99SpecificLocation">Specific Location</label>
+        <select id="event99SpecificLocation">
+          <option value="">Select a location...</option>
+        </select>
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="event99LocationCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="event99LocationConfirm">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="event99StartModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-play-circle"></i> Begin 99 Event Detail</h2>
+      <p class="modal-text">Are you ready to begin this Event Detail? This will create a timestamp for the start of the event.</p>
+      <div class="time-input-group">
+        <label for="event99StartTime">Start Time (HH:MM)</label>
+        <input type="time" id="event99StartTime" step="60">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="event99StartCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="event99StartConfirm">Begin Event</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="event99ReminderModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-info-circle"></i> Event Detail Reminder</h2>
+      <p class="modal-text"><strong>Important:</strong> During this Event Detail, remember to:</p>
+      <ul style="margin-left: 20px; margin-bottom: 15px;">
+        <li>Observe what went wrong and what went well</li>
+        <li>Take pictures at the start and end of the event</li>
+        <li>Document any notable incidents or observations</li>
+      </ul>
+      <p class="modal-text">After completing the Event Detail, please submit the 99 Form:</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSenjNviu1hM7M1M2qjsCxHzaNPxjNSGPJIJYtM6DufyzKRRQQ/viewform" target="_blank" class="form-link">
+        <i class="fas fa-external-link-alt"></i> Submit 99 Form
+      </a>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-confirm" id="event99ReminderConfirm">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="event99CompleteModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-stop-circle"></i> Complete 99 Event Detail</h2>
+      <p class="modal-text">Are you ready to complete this Event Detail? This will record the end time and calculate duration.</p>
+      <div class="time-input-group">
+        <label for="event99EndTime">End Time (HH:MM)</label>
+        <input type="time" id="event99EndTime" step="60">
+      </div>
+      <p class="modal-text" id="event99DurationDisplay">Duration: Calculating...</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="event99CompleteCancel">Cancel</button>
+        <button class="modal-btn modal-confirm" id="event99CompleteConfirm">Complete Event</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="event99FormPromptModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-check-circle"></i> Event Detail Completed</h2>
+      <p class="modal-text">Your Event Detail has been completed successfully! Please submit the 99 Form to document this event:</p>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLSenjNviu1hM7M1M2qjsCxHzaNPxjNSGPJIJYtM6DufyzKRRQQ/viewform" target="_blank" class="form-link">
+        <i class="fas fa-external-link-alt"></i> Submit 99 Form Now
+      </a>
+      <p class="modal-text" style="font-size: 0.9rem; color: var(--dark-gray);">
+        <i class="fas fa-lightbulb"></i> Tip: Submit the form now while details are fresh in your mind.
+      </p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-confirm" id="event99FormPromptConfirm">Done</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="event99EditModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-edit"></i> Edit Event Detail</h2>
+      <div class="location-type-group">
+        <label for="editEvent99LocationType">Location Type</label>
+        <select id="editEvent99LocationType">
+          <option value="">Select location type...</option>
+          <option value="Academic Buildings">Academic Buildings</option>
+          <option value="Residential Buildings">Residential Buildings</option>
+          <option value="Parking Lots">Parking Lots</option>
+          <option value="Roads">Roads</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <div class="specific-location-group">
+        <label for="editEvent99SpecificLocation">Specific Location</label>
+        <select id="editEvent99SpecificLocation">
+          <option value="">Select a location...</option>
+        </select>
+      </div>
+      <div class="time-input-group">
+        <label for="editEvent99StartTime">Start Time (HH:MM)</label>
+        <input type="time" id="editEvent99StartTime" step="60">
+      </div>
+      <div class="time-input-group">
+        <label for="editEvent99EndTime">End Time (HH:MM)</label>
+        <input type="time" id="editEvent99EndTime" step="60">
+      </div>
+      <p class="modal-text" id="editEvent99DurationDisplay">Duration: Calculating...</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-delete" id="event99EditDelete">Delete Entry</button>
+        <div>
+          <button class="modal-btn modal-cancel" id="event99EditCancel">Cancel</button>
+          <button class="modal-btn modal-confirm" id="event99EditConfirm">Update Event</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="deleteConfirmModal">
+    <div class="modal-content">
+      <h2 class="modal-title"><i class="fas fa-trash-alt"></i> Delete Entry</h2>
+      <p class="modal-text">Are you sure you want to delete this entry? This action cannot be undone.</p>
+      <div class="modal-buttons">
+        <button class="modal-btn modal-cancel" id="deleteConfirmCancel">Cancel</button>
+        <button class="modal-btn modal-delete" id="deleteConfirmConfirm">Delete Entry</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Campus location data with Kearney Dining (corrected from Carney)
+    const buildings = {
+      walk: [
+        "Clock Tower Commons", "Founders Residence Hall", "Kearney Residence Hall",
+        "Lourdes Residence Hall", "Medaille Residence Hall", "O'Connor 1 Residence Hall",
+        "O'Connor 2 Residence Hall", "O'Connor 3 Residence Hall",
+        "Shults Community Center", "Smyth Hall", "WRI (York Wellness and Rehabilitation Institute)",
+        "Library (Lorette Wilmot)", "Kearney Dining"
+      ],
+      mobile: [
+        "Admissions Center", "Art Center", "Boiler House", "Breen Residence Hall",
+        "Casa Hispana", "Casa Italiana", "Elizabeth George Residence Hall", "French House",
+        "GAC (Golisano Academic Center)", "Glazer", "Grounds Building", "GTC (Golisano Training Center)",
+        "Italian House", "Lyons Residence Hall", "Music House", "Nazareth Guest House",
+        "Pavilion", "Peckham Hall", "Portka Residence Hall", "Spanish House", "Stadium & All-Weather Track"
+      ],
+      detail: [
+        "Lot A", "Lot B", "Lot C", "Lot D", "Lot E", "Lot F", "Lot G", "Lot H", "Lot I",
+        "Lot I Extension", "Lot J", "Lot J Extension", "Lot K", "Lot L", "Lot M", "Lot N",
+        "Lot O", "Lot P", "Lot Q", "Lot Q Extension", "Lot R", "Lot S", "Lot T",
+        "Facilities Lot", "French House Lot", "Grounds Lot", "Montessori Lot",
+        "Peckham Lower-Level Handicap Parking", "St. Bernard Lot",
+        "Golden Flyer Road", "North Campus Drive", "South Campus Drive", "Winding Road"
+      ]
+    };
+
+    // Event 99 location data
+    const event99Locations = {
+      "Academic Buildings": [
+        "Art Center",
+        "GAC (Golisano Academic Center)",
+        "Glazer",
+        "GTC (Golisano Training Center)",
+        "Peckham Hall",
+        "Pavilion",
+        "Shults (Cab)",
+        "Smyth Hall",
+        "WRI (York Wellness and Rehabilitation Institute)",
+        "Boiler House"
+      ],
+      "Residential Buildings": [
+        "Breen Residence Hall",
+        "Clock Tower Commons",
+        "Founders Hall Kitchen",
+        "French House Kitchen",
+        "Italian House Kitchen",
+        "Kearney Dining",
+        "Kearney Hall 1st Floor Kitchen",
+        "Lourdes Hall Kitchen",
+        "Lyons Residence Hall",
+        "Medaille Hall Kitchen",
+        "O'Connor 1 Residence Hall",
+        "O'Connor 2 Residence Hall",
+        "O'Connor 3 Residence Hall",
+        "Portka Residence Hall",
+        "Spanish House Kitchen",
+        "Stadium Mech Room"
+      ],
+      "Parking Lots": [
+        "Lot A",
+        "Lot B",
+        "Lot C",
+        "Lot D",
+        "Lot E",
+        "Lot F",
+        "Lot G",
+        "Lot H",
+        "Lot I",
+        "Lot I Extension",
+        "Lot J",
+        "Lot J Extension",
+        "Lot K",
+        "Lot L",
+        "Lot M",
+        "Lot N",
+        "Lot O",
+        "Lot P",
+        "Lot Q",
+        "Lot Q Extension",
+        "Lot R",
+        "Lot S",
+        "Lot T",
+        "Facilities Lot",
+        "French House Lot",
+        "Grounds Lot",
+        "Montessori Lot",
+        "Peckham Lower-Level Handicap Parking",
+        "St. Bernard Lot"
+      ],
+      "Roads": [
+        "Golden Flyer Road",
+        "North Campus Drive",
+        "South Campus Drive",
+        "Winding Road"
+      ],
+      "Other": []
+    };
+
+    // Updated Activity codes with "P - Patrolled" as the first option and new codes
+    const activityCodes = [
+      { code: "P", description: "P - Patrolled" },
+      { code: "61", description: "61 - Personal Assist" },
+      { code: "61B", description: "61B - TBD" },
+      { code: "62", description: "62 - Escort" },
+      { code: "62M", description: "62M - Medical Escort" },
+      { code: "63", description: "63 - Vehicle Assist" },
+      { code: "65", description: "65 - Lock Up / Lock Out" },
+      { code: "65B", description: "65B - Building Open / Close" },
+      { code: "66", description: "66 - Noise Complaint" },
+      { code: "67", description: "67 - Door Alarm" },
+      { code: "68", description: "68 - Delivery / Pickup" },
+      { code: "69", description: "69 - Investigation / Follow-Up" },
+      { code: "93", description: "93 - Cooler / Freezer Check" },
+      { code: "95", description: "95 - Stove / Oven / Grill / Furnace Check" },
+      { code: "99", description: "99 - Event Detail" },
+      { code: "100", description: "100 - Special Attention" }
+    ];
+
+    // Updated Default activity codes and counts for specific buildings - CORRECTED Kearney Dining
+    const buildingDefaults = {
+      // Residential Buildings
+      "Breen Residence Hall": { codes: ["P"], counts: { "P": 1 } },
+      "Clock Tower Commons": { codes: ["P"], counts: { "P": 1 } },
+      "Founders Hall Kitchen": { codes: ["P", "95"], counts: { "P": 1, "95": 1 } },
+      "French House Kitchen": { codes: ["P", "95"], counts: { "P": 1, "95": 2 } },
+      "Italian House Kitchen": { codes: ["P", "95"], counts: { "P": 1, "95": 1 } },
+      "Kearney Dining": { codes: ["P", "93", "95"], counts: { "P": 1, "93": 5, "95": 5 } },
+      "Kearney Hall 1st Floor Kitchen": { codes: ["P", "93", "95"], counts: { "P": 1, "93": 1, "95": 1 } },
+      "Lourdes Hall Kitchen": { codes: ["P", "95"], counts: { "P": 1, "95": 2 } },
+      "Lyons Residence Hall": { codes: ["P"], counts: { "P": 1 } },
+      "Medaille Hall Kitchen": { codes: ["P", "95"], counts: { "P": 1, "95": 2 } },
+      "O'Connor 1 Residence Hall": { codes: ["P"], counts: { "P": 1 } },
+      "O'Connor 2 Residence Hall": { codes: ["P"], counts: { "P": 1 } },
+      "O'Connor 3 Residence Hall": { codes: ["P"], counts: { "P": 1 } },
+      "Portka Residence Hall": { codes: ["P"], counts: { "P": 1 } },
+      "Spanish House Kitchen": { codes: ["P", "95"], counts: { "P": 1, "95": 2 } },
+      "Stadium Mech Room": { codes: ["P", "95"], counts: { "P": 1, "95": 1 } },
+
+      // Academic Buildings
+      "Art Center": { codes: ["P"], counts: { "P": 1 } },
+      "GAC (Golisano Academic Center)": { codes: ["P", "93", "95"], counts: { "P": 1, "93": 1, "95": 1 } },
+      "Glazer": { codes: ["P"], counts: { "P": 1 } },
+      "GTC (Golisano Training Center)": { codes: ["P"], counts: { "P": 1 } },
+      "Peckham Hall": { codes: ["P", "93", "95"], counts: { "P": 1, "93": 1, "95": 2 } },
+      "Pavilion": { codes: ["P", "95"], counts: { "P": 1, "95": 1 } },
+      "Shults (Cab)": { codes: ["P", "93", "95"], counts: { "P": 1, "93": 5, "95": 2 } },
+      "Smyth Hall": { codes: ["P"], counts: { "P": 1 } },
+      "WRI (York Wellness and Rehabilitation Institute)": { codes: ["P"], counts: { "P": 1 } },
+      "Boiler House": { codes: ["P", "95"], counts: { "P": 1, "95": 7 } }
+    };
+
+    // Application state
+    let patrolLog = JSON.parse(localStorage.getItem('nazarethPatrolLog')) || [];
+    let currentPatrolType = 'walk';
+    let selectedActivityCodes = new Set();
+    let currentLocations = [];
+    let currentlyEditingEntryId = null;
+    let activeEvent99 = JSON.parse(localStorage.getItem('activeEvent99')) || null;
+    let modalSelectedActivityCodes = new Set();
+
+    // DOM Elements
+    const locationSelect = document.getElementById('location');
+    const locationOptions = document.getElementById('locationOptions');
+    const entryList = document.getElementById('entryList');
+    const buildingTable = document.getElementById('buildingTable');
+    const buildingFilter = document.getElementById('buildingFilter');
+    const codeFilter = document.getElementById('codeFilter');
+    const countInputsContainer = document.getElementById('countInputsContainer');
+    const activityCodesModalGrid = document.getElementById('activityCodesModalGrid');
+    const addActivitySection = document.getElementById('addActivitySection');
+    const notification = document.getElementById('notification');
+    const endShiftModal = document.getElementById('endShiftModal');
+    const clearModal = document.getElementById('clearModal');
+    const countEntryModal = document.getElementById('countEntryModal');
+    const entryTimeInput = document.getElementById('entryTime');
+    const countEntryModalTitle = document.getElementById('countEntryModalTitle');
+    const editConfirmModal = document.getElementById('editConfirmModal');
+    const event99LocationModal = document.getElementById('event99LocationModal');
+    const event99LocationType = document.getElementById('event99LocationType');
+    const event99SpecificLocation = document.getElementById('event99SpecificLocation');
+    const event99StartModal = document.getElementById('event99StartModal');
+    const event99ReminderModal = document.getElementById('event99ReminderModal');
+    const event99CompleteModal = document.getElementById('event99CompleteModal');
+    const event99StartTimeInput = document.getElementById('event99StartTime');
+    const event99EndTimeInput = document.getElementById('event99EndTime');
+    const event99DurationDisplay = document.getElementById('event99DurationDisplay');
+    const event99FormPromptModal = document.getElementById('event99FormPromptModal');
+    const event99EditModal = document.getElementById('event99EditModal');
+    const editEvent99LocationType = document.getElementById('editEvent99LocationType');
+    const editEvent99SpecificLocation = document.getElementById('editEvent99SpecificLocation');
+    const editEvent99StartTime = document.getElementById('editEvent99StartTime');
+    const editEvent99EndTime = document.getElementById('editEvent99EndTime');
+    const editEvent99DurationDisplay = document.getElementById('editEvent99DurationDisplay');
+    const deleteConfirmModal = document.getElementById('deleteConfirmModal');
+    const actionBar = document.getElementById('actionBar');
+    const toggleActionBar = document.getElementById('toggleActionBar');
+    const event99PatrolBtn = document.getElementById('event99PatrolBtn');
+
+    // Initialize the application
+    function init() {
+      // Set up patrol type buttons
+      setPatrolType(currentPatrolType);
+      
+      // Update event 99 button state
+      updateEvent99Button();
+      
+      // Add event listeners
+      document.getElementById('logBtn').addEventListener('click', showCountEntryModal);
+      document.getElementById('generateBtn').addEventListener('click', showEndShiftModal);
+      document.getElementById('modalCancel').addEventListener('click', hideEndShiftModal);
+      document.getElementById('modalConfirm').addEventListener('click', endShift);
+      document.getElementById('clearBtn').addEventListener('click', showClearModal);
+      document.getElementById('clearModalCancel').addEventListener('click', hideClearModal);
+      document.getElementById('clearModalConfirm').addEventListener('click', clearAllEntries);
+      document.getElementById('countEntryCancel').addEventListener('click', hideCountEntryModal);
+      document.getElementById('countEntryConfirm').addEventListener('click', saveEntry);
+      document.getElementById('countEntryDelete').addEventListener('click', showDeleteConfirmModal);
+      document.getElementById('editConfirmCancel').addEventListener('click', hideEditConfirmModal);
+      document.getElementById('editConfirmYes').addEventListener('click', showEditCountEntryModal);
+      document.getElementById('event99PatrolBtn').addEventListener('click', handleEvent99Click);
+      document.getElementById('event99LocationCancel').addEventListener('click', hideEvent99LocationModal);
+      document.getElementById('event99LocationConfirm').addEventListener('click', proceedToEvent99Start);
+      document.getElementById('event99StartCancel').addEventListener('click', hideEvent99StartModal);
+      document.getElementById('event99StartConfirm').addEventListener('click', startEvent99);
+      document.getElementById('event99ReminderConfirm').addEventListener('click', hideEvent99ReminderModal);
+      document.getElementById('event99CompleteCancel').addEventListener('click', hideEvent99CompleteModal);
+      document.getElementById('event99CompleteConfirm').addEventListener('click', completeEvent99);
+      document.getElementById('event99FormPromptConfirm').addEventListener('click', hideEvent99FormPromptModal);
+      document.getElementById('event99EditCancel').addEventListener('click', hideEvent99EditModal);
+      document.getElementById('event99EditConfirm').addEventListener('click', updateEvent99Entry);
+      document.getElementById('event99EditDelete').addEventListener('click', showDeleteConfirmModal);
+      document.getElementById('deleteConfirmCancel').addEventListener('click', hideDeleteConfirmModal);
+      document.getElementById('deleteConfirmConfirm').addEventListener('click', deleteEntry);
+      toggleActionBar.addEventListener('click', toggleActionBarState);
+      buildingFilter.addEventListener('input', updateBuildingTable);
+      codeFilter.addEventListener('input', updateBuildingTable);
+      
+      // Set up searchable location dropdown
+      setupSearchableLocation();
+      
+      // Set up event 99 time change listeners
+      event99StartTimeInput.addEventListener('change', updateEvent99StartTime);
+      event99EndTimeInput.addEventListener('change', updateEvent99Duration);
+      editEvent99StartTime.addEventListener('change', updateEditEvent99Duration);
+      editEvent99EndTime.addEventListener('change', updateEditEvent99Duration);
+      
+      // Set up location type change listener
+      event99LocationType.addEventListener('change', handleEvent99LocationTypeChange);
+      editEvent99LocationType.addEventListener('change', handleEditEvent99LocationTypeChange);
+      
+      // Set up resource card toggles
+      setupResourceCards();
+      
+      // Set up patrol type card toggle
+      setupPatrolTypeCard();
+      
+      // Update UI with existing data
+      updateEntryList();
+      updateBuildingTable();
+      
+      // Show welcome notification if no entries
+      if (patrolLog.length === 0) {
+        showNotification('Welcome to the Campus Safety Patrol Log', 'info', 'fas fa-info-circle');
+      }
+    }
+
+    // Set up patrol type card toggle
+    function setupPatrolTypeCard() {
+      const patrolTypeCard = document.getElementById('patrolTypeCard');
+      const header = patrolTypeCard.querySelector('.patrol-type-header');
+      
+      header.addEventListener('click', () => {
+        patrolTypeCard.classList.toggle('active');
+      });
+    }
+
+    // Set up resource card toggles
+    function setupResourceCards() {
+      const resourceCards = document.querySelectorAll('.resource-card');
+      
+      resourceCards.forEach(card => {
+        const header = card.querySelector('.resource-header');
+        header.addEventListener('click', () => {
+          card.classList.toggle('active');
+        });
+      });
+    }
+
+    // Set up searchable location dropdown
+    function setupSearchableLocation() {
+      locationSelect.addEventListener('focus', function() {
+        document.getElementById('locationSelect').classList.add('active');
+      });
+      
+      locationSelect.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const filteredLocations = currentLocations.filter(location => 
+          location.toLowerCase().includes(searchTerm)
+        );
+        
+        updateLocationOptions(filteredLocations);
+      });
+      
+      locationSelect.addEventListener('blur', function() {
+        // Delay hiding to allow for option selection
+        setTimeout(() => {
+          document.getElementById('locationSelect').classList.remove('active');
+        }, 200);
+      });
+      
+      // Add event listener for location changes to set default activity codes
+      locationSelect.addEventListener('change', function() {
+        const selectedBuilding = this.value;
+        if (buildingDefaults[selectedBuilding]) {
+          setDefaultActivityCodes(selectedBuilding);
+        }
+      });
+    }
+    
+    // Update location options in dropdown
+    function updateLocationOptions(locations) {
+      locationOptions.innerHTML = '';
+      
+      if (locations.length === 0) {
+        const noResults = document.createElement('div');
+        noResults.className = 'option';
+        noResults.textContent = 'No locations found';
+        locationOptions.appendChild(noResults);
+        return;
+      }
+      
+      locations.forEach(location => {
+        const option = document.createElement('div');
+        option.className = 'option';
+        option.textContent = location;
+        option.addEventListener('mousedown', function(e) {
+          e.preventDefault();
+          locationSelect.value = location;
+          document.getElementById('locationSelect').classList.remove('active');
+          
+          // Set default activity codes if applicable
+          if (buildingDefaults[location]) {
+            setDefaultActivityCodes(location);
+          }
+        });
+        locationOptions.appendChild(option);
+      });
+    }
+
+    // Set the current patrol type and update the location dropdown
+    function setPatrolType(type) {
+      currentPatrolType = type;
+      
+      // Update button states
+      document.querySelectorAll('.patrol-btn').forEach(btn => {
+        btn.classList.remove('active');
+      });
+      document.getElementById(`${type}Btn`).classList.add('active');
+      
+      // Update location options
+      currentLocations = buildings[type];
+      updateLocationOptions(currentLocations);
+      
+      // Reset selected activity codes when patrol type changes
+      selectedActivityCodes.clear();
+    }
+
+    // Generate activity code checkboxes for modal
+    function generateActivityCodeModalCheckboxes() {
+      activityCodesModalGrid.innerHTML = '';
+      
+      activityCodes.forEach(activity => {
+        const checkboxId = `modal-activity-${activity.code}`;
+        
+        const checkboxContainer = document.createElement('div');
+        checkboxContainer.className = 'activity-code-modal-item';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.id = checkboxId;
+        checkbox.className = 'activity-code-modal-checkbox';
+        checkbox.value = activity.code;
+        checkbox.addEventListener('change', handleModalActivityCodeChange);
+        
+        const label = document.createElement('label');
+        label.htmlFor = checkboxId;
+        label.className = 'activity-code-modal-label';
+        label.textContent = activity.description;
+        
+        checkboxContainer.appendChild(checkbox);
+        checkboxContainer.appendChild(label);
+        activityCodesModalGrid.appendChild(checkboxContainer);
+      });
+    }
+
+    // Handle modal activity code checkbox changes
+    function handleModalActivityCodeChange(event) {
+      const code = event.target.value;
+      
+      if (event.target.checked) {
+        modalSelectedActivityCodes.add(code);
+        // Add the activity to the count inputs if not already present
+        addActivityToModalCountInputs(code);
+      } else {
+        modalSelectedActivityCodes.delete(code);
+        // Remove the activity from the count inputs
+        removeActivityFromModalCountInputs(code);
+      }
+    }
+
+    // Add activity to modal count inputs
+    function addActivityToModalCountInputs(code) {
+      // Check if activity already exists in count inputs
+      const existingInput = document.querySelector(`.count-input-field[data-code="${code}"]`);
+      if (existingInput) return;
+      
+      const activity = activityCodes.find(a => a.code === code);
+      if (activity) {
+        const countRow = document.createElement('div');
+        countRow.className = 'count-input-row';
+        countRow.setAttribute('data-code', code);
+        
+        const label = document.createElement('div');
+        label.className = 'count-input-label';
+        label.textContent = activity.description;
+        
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.className = 'count-input-field';
+        input.min = '1';
+        input.value = 1;
+        input.setAttribute('data-code', code);
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'remove-activity-btn';
+        removeBtn.innerHTML = '×';
+        removeBtn.setAttribute('title', 'Remove this activity');
+        removeBtn.addEventListener('click', function() {
+          // Remove from modal selected codes
+          modalSelectedActivityCodes.delete(code);
+          // Uncheck the checkbox
+          const checkbox = document.getElementById(`modal-activity-${code}`);
+          if (checkbox) checkbox.checked = false;
+          // Remove the row
+          countRow.remove();
+        });
+        
+        countRow.appendChild(label);
+        countRow.appendChild(input);
+        countRow.appendChild(removeBtn);
+        countInputsContainer.appendChild(countRow);
+      }
+    }
+
+    // Remove activity from modal count inputs
+    function removeActivityFromModalCountInputs(code) {
+      const countRow = document.querySelector(`.count-input-row[data-code="${code}"]`);
+      if (countRow) {
+        countRow.remove();
+      }
+    }
+
+    // Set default activity codes for a building
+    function setDefaultActivityCodes(buildingName) {
+      // Clear current selections
+      selectedActivityCodes.clear();
+      
+      // Check if building has default codes
+      if (buildingDefaults[buildingName]) {
+        const defaults = buildingDefaults[buildingName];
+        defaults.codes.forEach(code => {
+          selectedActivityCodes.add(code);
+        });
+      }
+    }
+
+    // Handle Event 99 button click
+    function handleEvent99Click() {
+      if (activeEvent99) {
+        // If there's an active event, show complete modal
+        showEvent99CompleteModal();
+      } else {
+        // Otherwise, show location selection modal first
+        showEvent99LocationModal();
+      }
+    }
+
+    // Update Event 99 button state
+    function updateEvent99Button() {
+      if (activeEvent99) {
+        event99PatrolBtn.classList.add('active');
+        event99PatrolBtn.innerHTML = '<span class="patrol-icon">⏱️</span><span>99 - EVENT DETAIL (Active)</span>';
+      } else {
+        event99PatrolBtn.classList.remove('active');
+        event99PatrolBtn.innerHTML = '<span class="patrol-icon">📋</span><span>99 - EVENT DETAIL</span>';
+      }
+    }
+
+    // Show Event 99 location modal
+    function showEvent99LocationModal() {
+      // Reset form
+      event99LocationType.value = '';
+      event99SpecificLocation.innerHTML = '<option value="">Select a location...</option>';
+      
+      event99LocationModal.classList.add('show');
+    }
+
+    // Hide Event 99 location modal
+    function hideEvent99LocationModal() {
+      event99LocationModal.classList.remove('show');
+    }
+
+    // Handle Event 99 location type change
+    function handleEvent99LocationTypeChange() {
+      const locationType = event99LocationType.value;
+      event99SpecificLocation.innerHTML = '<option value="">Select a location...</option>';
+      
+      if (locationType && event99Locations[locationType]) {
+        event99Locations[locationType].forEach(location => {
+          const option = document.createElement('option');
+          option.value = location;
+          option.textContent = location;
+          event99SpecificLocation.appendChild(option);
+        });
+      }
+    }
+
+    // Handle Edit Event 99 location type change
+    function handleEditEvent99LocationTypeChange() {
+      const locationType = editEvent99LocationType.value;
+      editEvent99SpecificLocation.innerHTML = '<option value="">Select a location...</option>';
+      
+      if (locationType && event99Locations[locationType]) {
+        event99Locations[locationType].forEach(location => {
+          const option = document.createElement('option');
+          option.value = location;
+          option.textContent = location;
+          editEvent99SpecificLocation.appendChild(option);
+        });
+      }
+    }
+
+    // Proceed to Event 99 start after location selection
+    function proceedToEvent99Start() {
+      const locationType = event99LocationType.value;
+      const specificLocation = event99SpecificLocation.value;
+      
+      // Validate form
+      if (!locationType) {
+        showNotification('Please select a location type.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!specificLocation) {
+        showNotification('Please select a specific location.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Store location data for later use
+      window.event99LocationData = {
+        type: locationType,
+        specific: specificLocation
+      };
+      
+      // Proceed to start modal
+      hideEvent99LocationModal();
+      showEvent99StartModal();
+    }
+
+    // Show Event 99 start modal
+    function showEvent99StartModal() {
+      // Set current time for start
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      event99StartTimeInput.value = `${hours}:${minutes}`;
+      
+      event99StartModal.classList.add('show');
+    }
+
+    // Hide Event 99 start modal
+    function hideEvent99StartModal() {
+      event99StartModal.classList.remove('show');
+    }
+
+    // Show Event 99 reminder modal
+    function showEvent99ReminderModal() {
+      event99ReminderModal.classList.add('show');
+    }
+
+    // Hide Event 99 reminder modal
+    function hideEvent99ReminderModal() {
+      event99ReminderModal.classList.remove('show');
+    }
+
+    // Show Event 99 complete modal
+    function showEvent99CompleteModal() {
+      if (!activeEvent99) return;
+      
+      // Set current time for end
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      event99EndTimeInput.value = `${hours}:${minutes}`;
+      
+      // Calculate and display duration
+      updateEvent99Duration();
+      
+      event99CompleteModal.classList.add('show');
+    }
+
+    // Hide Event 99 complete modal
+    function hideEvent99CompleteModal() {
+      event99CompleteModal.classList.remove('show');
+    }
+
+    // Show Event 99 form prompt modal
+    function showEvent99FormPromptModal() {
+      event99FormPromptModal.classList.add('show');
+    }
+
+    // Hide Event 99 form prompt modal
+    function hideEvent99FormPromptModal() {
+      event99FormPromptModal.classList.remove('show');
+    }
+
+    // Show Event 99 edit modal
+    function showEvent99EditModal(entryId) {
+      const entry = patrolLog.find(e => e.id === entryId);
+      if (!entry || !entry.event99Data) return;
+      
+      // Fill form with existing data
+      editEvent99LocationType.value = entry.event99Data.locationType || '';
+      
+      // Populate specific location dropdown based on type
+      handleEditEvent99LocationTypeChange();
+      
+      // Set specific location
+      setTimeout(() => {
+        editEvent99SpecificLocation.value = entry.location;
+      }, 100);
+      
+      // Convert times from HH:MM:SS to HH:MM
+      const startTimeParts = entry.event99Data.startTime.split(':');
+      editEvent99StartTime.value = `${startTimeParts[0]}:${startTimeParts[1]}`;
+      
+      const endTimeParts = entry.event99Data.endTime.split(':');
+      editEvent99EndTime.value = `${endTimeParts[0]}:${endTimeParts[1]}`;
+      
+      // Calculate and display duration
+      updateEditEvent99Duration();
+      
+      // Store the entry ID for updating
+      currentlyEditingEntryId = entryId;
+      
+      event99EditModal.classList.add('show');
+    }
+
+    // Hide Event 99 edit modal
+    function hideEvent99EditModal() {
+      event99EditModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+
+    // Show delete confirmation modal
+    function showDeleteConfirmModal() {
+      deleteConfirmModal.classList.add('show');
+    }
+
+    // Hide delete confirmation modal
+    function hideDeleteConfirmModal() {
+      deleteConfirmModal.classList.remove('show');
+    }
+
+    // Delete entry
+    function deleteEntry() {
+      if (!currentlyEditingEntryId) return;
+      
+      // Find and remove the entry
+      patrolLog = patrolLog.filter(entry => entry.id !== currentlyEditingEntryId);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Update UI
+      updateEntryList();
+      updateBuildingTable();
+      
+      // Close all modals
+      hideCountEntryModal();
+      hideEvent99EditModal();
+      hideDeleteConfirmModal();
+      
+      showNotification('Entry deleted successfully!', 'success', 'fas fa-check-circle');
+    }
+
+    // Update Event 99 start time
+    function updateEvent99StartTime() {
+      // This function can be expanded if needed
+    }
+
+    // Update Event 99 duration display
+    function updateEvent99Duration() {
+      if (!activeEvent99) return;
+      
+      const startTime = activeEvent99.startTime;
+      const endTime = event99EndTimeInput.value;
+      
+      if (!startTime || !endTime) return;
+      
+      // Calculate duration in minutes
+      const start = new Date(`2000-01-01T${startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events (if end time is earlier than start time, assume next day)
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60; // Add 24 hours
+      }
+      
+      displayDuration(durationMinutes, event99DurationDisplay);
+    }
+
+    // Update edit Event 99 duration display
+    function updateEditEvent99Duration() {
+      const startTime = editEvent99StartTime.value;
+      const endTime = editEvent99EndTime.value;
+      
+      if (!startTime || !endTime) return;
+      
+      // Calculate duration in minutes
+      const start = new Date(`2000-01-01T${startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+      }
+      
+      displayDuration(durationMinutes, editEvent99DurationDisplay);
+    }
+
+    // Display duration in a readable format
+    function displayDuration(durationMinutes, element) {
+      const hours = Math.floor(durationMinutes / 60);
+      const minutes = Math.round(durationMinutes % 60);
+      
+      let durationText = '';
+      if (hours > 0) {
+        durationText = `${hours} hour${hours > 1 ? 's' : ''} ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+      } else {
+        durationText = `${minutes} minute${minutes !== 1 ? 's' : ''}`;
+      }
+      
+      element.textContent = `Duration: ${durationText}`;
+    }
+
+    // Start Event 99
+    function startEvent99() {
+      const startTime = event99StartTimeInput.value;
+      
+      if (!startTime) {
+        showNotification('Please select a valid start time.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Create active event object
+      activeEvent99 = {
+        id: Date.now(),
+        startTime: startTime,
+        startTimeFull: `${startTime}:00`,
+        date: new Date().toLocaleDateString(),
+        location: window.event99LocationData.specific,
+        locationType: window.event99LocationData.type,
+        patrolType: 'event99',
+        status: 'active'
+      };
+      
+      // Save to localStorage
+      localStorage.setItem('activeEvent99', JSON.stringify(activeEvent99));
+      
+      // Update UI
+      updateEvent99Button();
+      updateEntryList();
+      
+      // Show reminder modal
+      hideEvent99StartModal();
+      showEvent99ReminderModal();
+      
+      showNotification('Event Detail started successfully!', 'success', 'fas fa-play-circle');
+    }
+
+    // Complete Event 99
+    function completeEvent99() {
+      if (!activeEvent99) return;
+      
+      const endTime = event99EndTimeInput.value;
+      
+      if (!endTime) {
+        showNotification('Please select a valid end time.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Calculate duration
+      const start = new Date(`2000-01-01T${activeEvent99.startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+      }
+      
+      const hours = Math.floor(durationMinutes / 60);
+      const minutes = Math.round(durationMinutes % 60);
+      
+      // Create completed event entry
+      const eventEntry = {
+        id: activeEvent99.id,
+        time: activeEvent99.startTimeFull,
+        date: activeEvent99.date,
+        location: activeEvent99.location,
+        activities: [
+          { code: "99", count: 1 }
+        ],
+        totalCount: 1,
+        patrolType: 'event99',
+        event99Data: {
+          startTime: activeEvent99.startTimeFull,
+          endTime: `${endTime}:00`,
+          durationMinutes: durationMinutes,
+          durationText: `${hours > 0 ? `${hours}h ` : ''}${minutes}m`,
+          locationType: activeEvent99.locationType
+        }
+      };
+      
+      // Add to log and save
+      patrolLog.unshift(eventEntry);
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      
+      // Clear active event
+      activeEvent99 = null;
+      localStorage.removeItem('activeEvent99');
+      
+      // Update UI
+      updateEvent99Button();
+      updateEntryList();
+      updateBuildingTable();
+      hideEvent99CompleteModal();
+      
+      // Show form prompt
+      showEvent99FormPromptModal();
+      
+      showNotification('Event Detail completed successfully!', 'success', 'fas fa-stop-circle');
+    }
+
+    // Update Event 99 entry
+    function updateEvent99Entry() {
+      if (!currentlyEditingEntryId) return;
+      
+      const locationType = editEvent99LocationType.value;
+      const specificLocation = editEvent99SpecificLocation.value;
+      const startTime = editEvent99StartTime.value;
+      const endTime = editEvent99EndTime.value;
+      
+      // Validate form
+      if (!locationType) {
+        showNotification('Please select a location type.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!specificLocation) {
+        showNotification('Please select a specific location.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (!startTime || !endTime) {
+        showNotification('Please select both start and end times.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Calculate duration
+      const start = new Date(`2000-01-01T${startTime}`);
+      const end = new Date(`2000-01-01T${endTime}`);
+      
+      let durationMinutes = (end - start) / (1000 * 60);
+      
+      // Handle overnight events
+      if (durationMinutes < 0) {
+        durationMinutes += 24 * 60;
+      }
+      
+      const hours = Math.floor(durationMinutes / 60);
+      const minutes = Math.round(durationMinutes % 60);
+      
+      // Find and update the entry
+      const entryIndex = patrolLog.findIndex(e => e.id === currentlyEditingEntryId);
+      if (entryIndex !== -1) {
+        patrolLog[entryIndex].location = specificLocation;
+        patrolLog[entryIndex].time = `${startTime}:00`;
+        patrolLog[entryIndex].event99Data = {
+          startTime: `${startTime}:00`,
+          endTime: `${endTime}:00`,
+          durationMinutes: durationMinutes,
+          durationText: `${hours > 0 ? `${hours}h ` : ''}${minutes}m`,
+          locationType: locationType
+        };
+        
+        localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+        
+        updateEntryList();
+        updateBuildingTable();
+        
+        showNotification('Event Detail updated successfully!', 'success', 'fas fa-check-circle');
+      }
+      
+      hideEvent99EditModal();
+    }
+
+    // Show count entry modal for NEW entries
+    function showCountEntryModal() {
+      const location = locationSelect.value;
+      
+      // Validate form
+      if (!location) {
+        showNotification('Please select a location.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Set modal title for new entry
+      countEntryModalTitle.innerHTML = '<i class="fas fa-list-ol"></i> New Patrol Entry';
+      
+      // Set current time for new entry
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const minutes = now.getMinutes().toString().padStart(2, '0');
+      entryTimeInput.value = `${hours}:${minutes}`;
+      
+      // Reset modal selected activity codes
+      modalSelectedActivityCodes.clear();
+      
+      // Generate activity code checkboxes for modal
+      generateActivityCodeModalCheckboxes();
+      
+      // Generate count inputs for each selected code
+      countInputsContainer.innerHTML = '';
+      
+      // Always include "P" code with count 1
+      const codesToShow = new Set(selectedActivityCodes);
+      codesToShow.add("P");
+      
+      codesToShow.forEach(code => {
+        modalSelectedActivityCodes.add(code);
+        const checkbox = document.getElementById(`modal-activity-${code}`);
+        if (checkbox) checkbox.checked = true;
+        
+        const activity = activityCodes.find(a => a.code === code);
+        if (activity) {
+          const countRow = document.createElement('div');
+          countRow.className = 'count-input-row';
+          countRow.setAttribute('data-code', code);
+          
+          const label = document.createElement('div');
+          label.className = 'count-input-label';
+          label.textContent = activity.description;
+          
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.className = 'count-input-field';
+          input.min = '1';
+          input.value = getDefaultCount(location, code);
+          input.setAttribute('data-code', code);
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'remove-activity-btn';
+          removeBtn.innerHTML = '×';
+          removeBtn.setAttribute('title', 'Remove this activity');
+          removeBtn.addEventListener('click', function() {
+            // Remove from modal selected codes
+            modalSelectedActivityCodes.delete(code);
+            // Uncheck the checkbox
+            const checkbox = document.getElementById(`modal-activity-${code}`);
+            if (checkbox) checkbox.checked = false;
+            // Remove the row
+            countRow.remove();
+          });
+          
+          countRow.appendChild(label);
+          countRow.appendChild(input);
+          countRow.appendChild(removeBtn);
+          countInputsContainer.appendChild(countRow);
+        }
+      });
+      
+      // Set editing state to null (new entry)
+      currentlyEditingEntryId = null;
+      // Hide delete button for new entries
+      document.getElementById('countEntryDelete').style.display = 'none';
+      countEntryModal.classList.add('show');
+    }
+    
+    // Show count entry modal for EDITING existing entries
+    function showEditCountEntryModal() {
+      if (!currentlyEditingEntryId) return;
+      
+      const entry = patrolLog.find(e => e.id === currentlyEditingEntryId);
+      if (!entry) return;
+      
+      // Set modal title for editing
+      countEntryModalTitle.innerHTML = '<i class="fas fa-edit"></i> Edit Patrol Entry';
+      
+      // Set the time from the entry (convert from HH:MM:SS to HH:MM)
+      const timeParts = entry.time.split(':');
+      entryTimeInput.value = `${timeParts[0]}:${timeParts[1]}`;
+      
+      // Reset modal selected activity codes
+      modalSelectedActivityCodes.clear();
+      
+      // Generate activity code checkboxes for modal
+      generateActivityCodeModalCheckboxes();
+      
+      // Generate count inputs for each activity in the entry
+      countInputsContainer.innerHTML = '';
+      
+      entry.activities.forEach(activity => {
+        modalSelectedActivityCodes.add(activity.code);
+        const checkbox = document.getElementById(`modal-activity-${activity.code}`);
+        if (checkbox) checkbox.checked = true;
+        
+        const activityObj = activityCodes.find(a => a.code === activity.code);
+        if (activityObj) {
+          const countRow = document.createElement('div');
+          countRow.className = 'count-input-row';
+          countRow.setAttribute('data-code', activity.code);
+          
+          const label = document.createElement('div');
+          label.className = 'count-input-label';
+          label.textContent = activityObj.description;
+          
+          const input = document.createElement('input');
+          input.type = 'number';
+          input.className = 'count-input-field';
+          input.min = '1';
+          input.value = activity.count;
+          input.setAttribute('data-code', activity.code);
+          
+          const removeBtn = document.createElement('button');
+          removeBtn.type = 'button';
+          removeBtn.className = 'remove-activity-btn';
+          removeBtn.innerHTML = '×';
+          removeBtn.setAttribute('title', 'Remove this activity');
+          removeBtn.addEventListener('click', function() {
+            // Remove from modal selected codes
+            modalSelectedActivityCodes.delete(activity.code);
+            // Uncheck the checkbox
+            const checkbox = document.getElementById(`modal-activity-${activity.code}`);
+            if (checkbox) checkbox.checked = false;
+            // Remove the row
+            countRow.remove();
+          });
+          
+          countRow.appendChild(label);
+          countRow.appendChild(input);
+          countRow.appendChild(removeBtn);
+          countInputsContainer.appendChild(countRow);
+        }
+      });
+      
+      // Show delete button for editing existing entries
+      document.getElementById('countEntryDelete').style.display = 'block';
+      
+      hideEditConfirmModal();
+      countEntryModal.classList.add('show');
+    }
+    
+    // Get default count for a code at a location
+    function getDefaultCount(location, code) {
+      if (buildingDefaults[location] && buildingDefaults[location].counts[code]) {
+        return buildingDefaults[location].counts[code];
+      }
+      return code === "P" ? 1 : 1; // Default to 1 for all codes, P is always 1
+    }
+
+    // Hide count entry modal
+    function hideCountEntryModal() {
+      countEntryModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+      modalSelectedActivityCodes.clear();
+    }
+
+    // Save a new patrol entry or update existing one
+    function saveEntry() {
+      const location = locationSelect.value;
+      const time = entryTimeInput.value;
+      
+      // Validate time
+      if (!time) {
+        showNotification('Please select a valid time.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Validate form for new entries (editing entries already have location)
+      if (!currentlyEditingEntryId && !location) {
+        showNotification('Please select a location.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      // Collect counts for each code
+      const activities = [];
+      let totalCount = 0;
+      let hasInvalidCount = false;
+      
+      document.querySelectorAll('#countInputsContainer .count-input-field').forEach(input => {
+        const code = input.getAttribute('data-code');
+        let count = parseInt(input.value);
+        
+        // Validate count
+        if (isNaN(count) || count < 1) {
+          hasInvalidCount = true;
+          input.style.borderColor = 'var(--error)';
+          count = 1; // Default to 1 for validation
+        } else {
+          input.style.borderColor = '';
+        }
+        
+        activities.push({ code, count });
+        totalCount += count;
+      });
+      
+      if (hasInvalidCount) {
+        showNotification('Please enter valid counts (1 or higher).', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (activities.length === 0) {
+        showNotification('Please add at least one activity.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      
+      if (currentlyEditingEntryId) {
+        // Update existing entry
+        const entryIndex = patrolLog.findIndex(e => e.id === currentlyEditingEntryId);
+        if (entryIndex !== -1) {
+          patrolLog[entryIndex].time = `${time}:00`; // Store as HH:MM:SS for consistency
+          patrolLog[entryIndex].activities = activities;
+          patrolLog[entryIndex].totalCount = totalCount;
+          localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+          
+          updateEntryList();
+          updateBuildingTable();
+          
+          showNotification('Entry updated successfully!', 'success', 'fas fa-check-circle');
+        }
+      } else {
+        // Create new entry object
+        const entry = {
+          id: Date.now(),
+          time: `${time}:00`, // Store as HH:MM:SS for consistency
+          date: new Date().toLocaleDateString(),
+          location, 
+          activities,
+          totalCount,
+          patrolType: currentPatrolType
+        };
+        
+        // Add to log and save
+        patrolLog.unshift(entry);
+        localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+        
+        // Update UI
+        updateEntryList();
+        updateBuildingTable();
+        
+        // Show confirmation
+        showNotification('Patrol entry saved successfully!', 'success', 'fas fa-check-circle');
+      }
+      
+      hideCountEntryModal();
+    }
+
+    // Update the building activity table
+    function updateBuildingTable() {
+      const buildingFilterValue = buildingFilter.value.toLowerCase();
+      const codeFilterValue = codeFilter.value.toLowerCase();
+      
+      // Get all unique buildings and activity codes from patrol log
+      const allBuildings = [...new Set(patrolLog.map(entry => entry.location))];
+      const allActivityCodes = [...new Set(patrolLog.flatMap(entry => 
+        entry.activities.map(activity => activity.code)
+      ))];
+      
+      // Filter buildings and codes based on filter inputs
+      const filteredBuildings = allBuildings.filter(building => 
+        building.toLowerCase().includes(buildingFilterValue)
+      );
+      
+      const filteredActivityCodes = allActivityCodes.filter(code => 
+        code.toLowerCase().includes(codeFilterValue)
+      );
+      
+      // Sort activity codes with "P" first, then numerically
+      filteredActivityCodes.sort((a, b) => {
+        if (a === "P") return -1;
+        if (b === "P") return 1;
+        return parseInt(a) - parseInt(b);
+      });
+      
+      // Clear table
+      buildingTable.innerHTML = '';
+      
+      if (filteredBuildings.length === 0 || filteredActivityCodes.length === 0) {
+        const row = buildingTable.insertRow();
+        const cell = row.insertCell();
+        cell.colSpan = filteredActivityCodes.length + 1;
+        cell.className = 'no-data';
+        cell.textContent = 'No activity data to display';
+        return;
+      }
+      
+      // Create header row
+      const headerRow = buildingTable.insertRow();
+      const buildingHeader = document.createElement('th');
+      buildingHeader.textContent = 'Building';
+      buildingHeader.className = 'building-name';
+      headerRow.appendChild(buildingHeader);
+      
+      filteredActivityCodes.forEach(code => {
+        const th = document.createElement('th');
+        th.textContent = code;
+        headerRow.appendChild(th);
+      });
+      
+      // Create data rows
+      filteredBuildings.forEach(building => {
+        const row = buildingTable.insertRow();
+        
+        // Building name cell
+        const buildingCell = row.insertCell();
+        buildingCell.textContent = building;
+        buildingCell.className = 'building-name';
+        
+        // Activity count cells
+        filteredActivityCodes.forEach(code => {
+          const cell = row.insertCell();
+          const totalCount = patrolLog
+            .filter(entry => entry.location === building)
+            .flatMap(entry => entry.activities)
+            .filter(activity => activity.code === code)
+            .reduce((sum, activity) => sum + activity.count, 0);
+          
+          cell.textContent = totalCount || '';
+          if (totalCount > 0) {
+            cell.className = 'activity-count';
+          }
+        });
+      });
+    }
+
+    // Update the entry list display WITHOUT swipe functionality
+    function updateEntryList() {
+      entryList.innerHTML = '';
+      
+      // Show active Event 99 at the top if it exists
+      if (activeEvent99) {
+        const li = document.createElement('li');
+        li.className = 'entry-item event99-item event99-ongoing';
+        li.setAttribute('data-entry-id', 'active-event99');
+        
+        const content = document.createElement('div');
+        content.className = 'entry-content';
+        
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'entry-time';
+        // Format time as HH:MM (remove seconds)
+        const timeParts = activeEvent99.startTimeFull.split(':');
+        timeSpan.textContent = `${timeParts[0]}:${timeParts[1]}`;
+        
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'entry-details';
+        
+        const locationSpan = document.createElement('div');
+        locationSpan.className = 'entry-location';
+        locationSpan.innerHTML = `${activeEvent99.location} <span class="event99-badge">99 - ACTIVE</span>`;
+        
+        const activitySpan = document.createElement('div');
+        activitySpan.className = 'entry-activity';
+        activitySpan.textContent = 'Event Detail - In Progress';
+        
+        detailsDiv.appendChild(locationSpan);
+        detailsDiv.appendChild(activitySpan);
+        
+        content.appendChild(timeSpan);
+        content.appendChild(detailsDiv);
+        
+        li.appendChild(content);
+        
+        // Add click event listener for completing Event 99
+        li.addEventListener('click', function() {
+          showEvent99CompleteModal();
+        });
+        
+        entryList.appendChild(li);
+      }
+      
+      if (patrolLog.length === 0 && !activeEvent99) {
+        const emptyMsg = document.createElement('div');
+        emptyMsg.className = 'empty-list';
+        emptyMsg.textContent = 'No entries yet. Add your first patrol entry above.';
+        entryList.appendChild(emptyMsg);
+        return;
+      }
+      
+      // Show only the 10 most recent entries (excluding active Event 99)
+      const recentEntries = patrolLog.slice(0, 10);
+      
+      recentEntries.forEach(entry => {
+        const li = document.createElement('li');
+        li.className = 'entry-item';
+        
+        // Add special styling for Event 99 entries
+        if (entry.patrolType === 'event99') {
+          li.classList.add('event99-item', 'event99-completed');
+        }
+        
+        li.setAttribute('data-entry-id', entry.id);
+        
+        // Entry content
+        const content = document.createElement('div');
+        content.className = 'entry-content';
+        
+        const timeSpan = document.createElement('span');
+        timeSpan.className = 'entry-time';
+        // Format time as HH:MM (remove seconds)
+        const timeParts = entry.time.split(':');
+        timeSpan.textContent = `${timeParts[0]}:${timeParts[1]}`;
+        
+        const detailsDiv = document.createElement('div');
+        detailsDiv.className = 'entry-details';
+        
+        const locationSpan = document.createElement('div');
+        locationSpan.className = 'entry-location';
+        
+        // Add Event 99 badge if it's an Event 99 entry
+        if (entry.patrolType === 'event99') {
+          locationSpan.innerHTML = `${entry.location} <span class="event99-badge">99</span>`;
+        } else {
+          locationSpan.textContent = entry.location;
+        }
+        
+        const activitySpan = document.createElement('div');
+        activitySpan.className = 'entry-activity';
+        
+        // Format activity codes for display - SHOW ONLY CODE + COUNT (e.g., "P x1")
+        // For Event 99, show duration instead
+        if (entry.patrolType === 'event99' && entry.event99Data) {
+          // Format start and end times for display
+          const startTimeParts = entry.event99Data.startTime.split(':');
+          const endTimeParts = entry.event99Data.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]}`;
+          
+          activitySpan.textContent = `Event Detail - ${entry.event99Data.durationText}`;
+          
+          // Add times display
+          const timesSpan = document.createElement('div');
+          timesSpan.className = 'event99-times';
+          timesSpan.textContent = `Start: ${startTime} - End: ${endTime}`;
+          detailsDiv.appendChild(timesSpan);
+        } else {
+          const activityDisplay = entry.activities.map(activity => {
+            return `${activity.code} x${activity.count}`;
+          }).join(', ');
+          activitySpan.textContent = activityDisplay;
+        }
+        
+        detailsDiv.appendChild(locationSpan);
+        detailsDiv.appendChild(activitySpan);
+        
+        content.appendChild(timeSpan);
+        content.appendChild(detailsDiv);
+        
+        li.appendChild(content);
+        
+        // Add click event listener for edit functionality
+        li.addEventListener('click', function() {
+          const entryId = parseInt(this.getAttribute('data-entry-id'));
+          const entry = patrolLog.find(e => e.id === entryId);
+          
+          if (entry && entry.patrolType === 'event99') {
+            // Show Event 99 edit modal
+            showEvent99EditModal(entryId);
+          } else {
+            // Show regular edit confirmation modal
+            showEditConfirmModal(entryId);
+          }
+        });
+        
+        entryList.appendChild(li);
+      });
+    }
+
+    // Show edit confirmation modal
+    function showEditConfirmModal(entryId) {
+      currentlyEditingEntryId = entryId;
+      editConfirmModal.classList.add('show');
+    }
+    
+    // Hide edit confirmation modal
+    function hideEditConfirmModal() {
+      editConfirmModal.classList.remove('show');
+      currentlyEditingEntryId = null;
+    }
+
+    // Show the end shift confirmation modal
+    function showEndShiftModal() {
+      if (patrolLog.length === 0 && !activeEvent99) {
+        showNotification('No entries to export.', 'error', 'fas fa-exclamation-triangle');
+        return;
+      }
+      endShiftModal.classList.add('show');
+    }
+
+    // Hide the end shift modal
+    function hideEndShiftModal() {
+      endShiftModal.classList.remove('show');
+    }
+
+    // Show the clear entries confirmation modal
+    function showClearModal() {
+      if (patrolLog.length === 0 && !activeEvent99) {
+        showNotification('No entries to clear.', 'info', 'fas fa-info-circle');
+        return;
+      }
+      clearModal.classList.add('show');
+    }
+
+    // Hide the clear entries modal
+    function hideClearModal() {
+      clearModal.classList.remove('show');
+    }
+
+    // Clear all entries
+    function clearAllEntries() {
+      patrolLog = [];
+      activeEvent99 = null;
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      localStorage.removeItem('activeEvent99');
+      updateEntryList();
+      updateBuildingTable();
+      updateEvent99Button();
+      hideClearModal();
+      showNotification('All entries cleared.', 'info', 'fas fa-info-circle');
+    }
+
+    // Toggle action bar state
+    function toggleActionBarState() {
+      if (actionBar.classList.contains('maximized')) {
+        actionBar.classList.remove('maximized');
+        actionBar.classList.add('minimized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-up"></i>';
+      } else {
+        actionBar.classList.remove('minimized');
+        actionBar.classList.add('maximized');
+        toggleActionBar.innerHTML = '<i class="fas fa-chevron-down"></i>';
+      }
+    }
+
+    // End the shift and generate report
+    function endShift() {
+      hideEndShiftModal();
+      
+      // Generate report content
+      let report = "Nazareth University Campus Safety\n";
+      report += "Patrol Log\n";
+      report += `Generated: ${new Date().toLocaleString()}\n\n`;
+      
+      // Add entries to report
+      patrolLog.forEach((entry, i) => {
+        const patrolType = getPatrolTypeDisplay(entry.patrolType);
+        
+        // Format activities for report - use only codes (e.g., "P x1")
+        // For Event 99, show duration
+        let activityDisplay;
+        if (entry.patrolType === 'event99' && entry.event99Data) {
+          const startTimeParts = entry.event99Data.startTime.split(':');
+          const endTimeParts = entry.event99Data.endTime.split(':');
+          const startTime = `${startTimeParts[0]}:${startTimeParts[1]}`;
+          const endTime = `${endTimeParts[0]}:${endTimeParts[1]}`;
+          
+          activityDisplay = `Event Detail - ${entry.event99Data.durationText} (${startTime}-${endTime})`;
+        } else {
+          activityDisplay = entry.activities.map(activity => {
+            return `${activity.code} x${activity.count}`;
+          }).join(', ');
+        }
+        
+        // Format time as HH:MM (without seconds)
+        const timeParts = entry.time.split(':');
+        const displayTime = `${timeParts[0]}:${timeParts[1]}`;
+        
+        report += `${i + 1}. [${displayTime}] ${patrolType} – ${entry.location} | ${activityDisplay}\n`;
+      });
+      
+      // Add active Event 99 if exists
+      if (activeEvent99) {
+        const timeParts = activeEvent99.startTimeFull.split(':');
+        const displayTime = `${timeParts[0]}:${timeParts[1]}`;
+        report += `ACTIVE. [${displayTime}] Event99 – ${activeEvent99.location} | Event Detail - In Progress\n`;
+      }
+      
+      report += `\nTotal Entries: ${patrolLog.length}${activeEvent99 ? ' + 1 active' : ''}\n`;
+      report += `Generated: ${new Date().toLocaleTimeString("en-US", { hour12: false })}\n`;
+      report += "Officer Signature: ____________________\n\n";
+      report += "End of Report";
+      
+      // Create and download the file
+      const blob = new Blob([report], { type: "text/plain" });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = `Patrol_Log_${new Date().toISOString().slice(0,10)}.txt`;
+      link.click();
+      
+      // Clear the log after generating report
+      patrolLog = [];
+      activeEvent99 = null;
+      localStorage.setItem('nazarethPatrolLog', JSON.stringify(patrolLog));
+      localStorage.removeItem('activeEvent99');
+      updateEntryList();
+      updateBuildingTable();
+      updateEvent99Button();
+      
+      showNotification('Shift report generated successfully!', 'success', 'fas fa-check-circle');
+    }
+
+    // Helper function to get display text for patrol type
+    function getPatrolTypeDisplay(type) {
+      switch(type) {
+        case 'walk': return 'Walk Side';
+        case 'mobile': return 'Mobile Side';
+        case 'detail': return 'Detail Side';
+        case 'event99': return 'Event Detail';
+        default: return type;
+      }
+    }
+
+    // Show a notification message
+    function showNotification(message, type, iconClass) {
+      notification.innerHTML = `<i class="${iconClass}"></i> ${message}`;
+      notification.className = `notification ${type} show`;
+      
+      setTimeout(() => {
+        notification.classList.remove('show');
+      }, 3000);
+    }
+
+    // Initialize the application when DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      init();
+    });
+  </script>
+</body>
+</html>
